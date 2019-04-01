@@ -50,7 +50,7 @@ class ParsimoniousLM(object):
                 count[i] += 1
 
         cf = np.empty(len(count), dtype=np.float)
-        for i, f in count.iteritems():
+        for i, f in count.items():
             cf[i] = f
         rare = (cf < thresh)
         cf -= rare * cf
@@ -86,7 +86,7 @@ class ParsimoniousLM(object):
         tf, p_term = self._document_model(d)
         p_term = self._EM(tf, p_term, w, max_iter, eps)
 
-        terms = [(t, p_term[i]) for t, i in self.vocab.iteritems()]
+        terms = [(t, p_term[i]) for t, i in self.vocab.items()]
         return nlargest(k, terms, lambda tp: tp[1])
 
     def _document_model(self, d):
@@ -155,7 +155,7 @@ class ParsimoniousLM(object):
         try:
             old_error_settings = np.seterr(divide='ignore')
             p_term = np.asarray(p_term)
-            for i in xrange(1, max_iter + 1):
+            for i in range(1, max_iter + 1):
                 # E-step
                 p_term += w
                 E = tf + p_term - np.logaddexp(p_corpus, p_term)
