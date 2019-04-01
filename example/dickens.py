@@ -21,6 +21,7 @@ books = [
 ]
 
 startbook = """*** START OF THIS PROJECT GUTENBERG EBOOK """
+endbook = """*** END OF THIS PROJECT GUTENBERG EBOOK """
 
 
 def read_book(title, num):
@@ -29,9 +30,11 @@ def read_book(title, num):
     logger.info("Fetching terms from %s" % title)
     path = "%s.txt.utf8.gz" % num
     in_book = False
-    for ln in gzip.open(path):
-        if in_book:
-            for w in re.sub(r"[.,:;!?\"']", " ", ln).lower().split():
+    for ln in gzip.open(path, 'rt', encoding='utf8'):
+        if in_book and ln.startswith(endbook):
+            break
+        elif in_book:
+            for w in re.sub(r"[.,:;!?\"'‘’]", " ", ln).lower().split():
                 yield w
         elif ln.startswith(startbook):
             in_book = True
