@@ -8,7 +8,7 @@ from heapq import nlargest
 import logging
 import numpy as np
 
-from .logsum import logsum
+from weighwords.logsum import logsum
 
 
 logger = logging.getLogger(__name__)
