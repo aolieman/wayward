@@ -1,19 +1,22 @@
 import logging
 import re
+from collections import namedtuple
 
 import nltk
 import numpy as np
 import spacy
+from gutenberg._domain_model.exceptions import UnknownDownloadUriException
 from gutenberg.acquire import load_etext
 from gutenberg.cleanup import strip_headers
+from gutenberg.query import get_etexts, get_metadata
 from spacy.tokenizer import Tokenizer
+from tabulate import tabulate
 
 from weighwords import ParsimoniousLM
 
-books = [
-    ('Oliver Twist',       730),
-    ('David Copperfield',  766),
-    ('Great Expectations', 1400),
+authors = [
+    'Carroll, Lewis',
+    'Melville, Herman',
 ]
 
 logger = logging.getLogger(__name__)
@@ -26,12 +29,20 @@ nn_tokenizer = Tokenizer(en_weights.vocab)
 sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
 token_re = re.compile(r'\w{2,}')
 
+Document = namedtuple('Document', [
+    'pk',
+    'title',
+    'text',
+    'nltk_terms',
+    'spacy_terms'
+])
+
 
 def spacy_tokenize(text):
     return [
         w.lower_
         for w in nn_tokenizer(text)
-        if token_re.match(w.text)
+        if token_re.search(w.text)
     ]
 
 
@@ -41,7 +52,7 @@ def nltk_tokenize(text):
         w.strip().lower()
         for s in sents
         for w in nltk.tokenize.word_tokenize(s)
-        if token_re.match(w)
+        if token_re.search(w)
     ]
 
 
@@ -51,25 +62,67 @@ def read_book(gutenberg_id):
     ).strip()
 
 
-library = {
-    title: read_book(pk)
-    for title, pk in books
-}
-spacy_docterms = [spacy_tokenize(d) for d in library.values()]
-spacy_model = ParsimoniousLM(spacy_docterms, w=.01)
-nltk_docterms = [nltk_tokenize(d) for d in library.values()]
-nltk_model = ParsimoniousLM(nltk_docterms, w=.01)
+def get_author_library(author_name):
+    logger.info(f'Loading library for {author_name}')
+    etext_ids = get_etexts('author', author_name)
+    work_ids, work_texts = [], []
+    for pk in etext_ids:
+        try:
+            text = read_book(pk)
+        except UnknownDownloadUriException as e:
+            logger.warning(f'Missing text: {e}')
+            continue
+
+        work_ids.append(pk)
+        work_texts.append(text)
+
+    work_titles = [
+        next(iter(get_metadata('title', pk)))
+        for pk in work_ids
+    ]
+    nltk_terms = [nltk_tokenize(d) for d in work_texts]
+    spacy_terms = [spacy_tokenize(d) for d in work_texts]
+
+    library = {
+        pk: Document(
+            pk,
+            *values
+        )
+        for pk, *values in zip(
+            work_ids,
+            work_titles,
+            work_texts,
+            nltk_terms,
+            spacy_terms
+        )
+    }
+    nltk_model = ParsimoniousLM(nltk_terms, w=.01)
+    spacy_model = ParsimoniousLM(spacy_terms, w=.01)
+    return library, nltk_model, spacy_model
 
 
-def book_vs_author(model, docterms):
-    for i, item in enumerate(library.items()):
-        title, _ = item
-        print("Top %d words in %s:" % (top_k, title))
-        for term, p in model.top(top_k, docterms[i]):
-            print("    %s %.4f" % (term, np.exp(p)))
-        print("")
+def book_vs_author(library, nltk_model, spacy_model):
+    for doc in library.values():
+        nltk_termprobs = [
+            (term, np.exp(p))
+            for term, p in nltk_model.top(top_k, doc.nltk_terms)
+        ]
+        spacy_termprobs = [
+            (term, np.exp(p))
+            for term, p in spacy_model.top(top_k, doc.spacy_terms)
+        ]
+        term_probabilities = [
+            nltk_tp + spacy_tp
+            for nltk_tp, spacy_tp in zip(nltk_termprobs, spacy_termprobs)
+        ]
+        print(f'Top {top_k} terms in {doc.title}:')
+        print(
+            tabulate(term_probabilities, headers=(
+                'NLTK term', 'p', 'SpaCy term', 'p'
+            )) + "\n"
+        )
 
 
-if __name__ == "__main__":
-    book_vs_author(spacy_model, spacy_docterms)
-    book_vs_author(nltk_model, nltk_docterms)
+if __name__ == '__main__':
+    for author in authors:
+        book_vs_author(*get_author_library(author))
