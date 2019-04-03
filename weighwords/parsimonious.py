@@ -6,6 +6,8 @@
 from collections import defaultdict
 from heapq import nlargest
 import logging
+from operator import itemgetter
+
 import numpy as np
 
 from weighwords.logsum import logsum
@@ -14,7 +16,7 @@ from weighwords.logsum import logsum
 logger = logging.getLogger(__name__)
 
 
-class ParsimoniousLM(object):
+class ParsimoniousLM:
     """Language model for a set of documents.
 
     Constructing an object of this class fits a background model. The top
@@ -87,7 +89,7 @@ class ParsimoniousLM(object):
         p_term = self._EM(tf, p_term, w, max_iter, eps)
 
         terms = [(t, p_term[i]) for t, i in self.vocab.items()]
-        return nlargest(k, terms, lambda tp: tp[1])
+        return nlargest(k, terms, itemgetter(1))
 
     def _document_model(self, d):
         """Build document model.
