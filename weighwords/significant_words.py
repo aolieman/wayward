@@ -74,7 +74,10 @@ class SignificantWordsLM(ParsimoniousLM):
         self.lambda_corpus = np.full(weights_shape, general_w, dtype=np.float)
         self.lambda_specific = np.full(weights_shape, specific_w, dtype=np.float)
         self.lambda_group = np.full(weights_shape, group_w, dtype=np.float)
-
+        logger.info(
+            f'Lambdas initialized to: Corpus={np.exp(general_w)}, '
+            f'Group={w}, Specific={np.exp(specific_w)}'
+        )
         self.p_group = self._estimate(p_group, p_specific, doc_term_frequencies, max_iter, eps)
         self.p_specific = p_specific
 
