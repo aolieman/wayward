@@ -1,4 +1,6 @@
+import itertools
 import logging
+import os
 import re
 from collections import namedtuple
 
@@ -7,17 +9,22 @@ import numpy as np
 import spacy
 from gutenberg._domain_model.exceptions import UnknownDownloadUriException
 from gutenberg.acquire import load_etext
+from gutenberg.acquire.text import _TEXT_CACHE
 from gutenberg.cleanup import strip_headers
 from gutenberg.query import get_etexts, get_metadata
 from spacy.tokenizer import Tokenizer
 from tabulate import tabulate
 
 from weighwords import ParsimoniousLM
+from weighwords.significant_words import SignificantWordsLM
 
 authors = [
     'Carroll, Lewis',
     'Melville, Herman',
+    'Doyle, Arthur Conan',
+    'Wells, H. G. (Herbert George)',
 ]
+english_works = get_etexts('language', 'en')
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -56,15 +63,18 @@ def nltk_tokenize(text):
     ]
 
 
-def read_book(gutenberg_id):
-    return strip_headers(
-        load_etext(gutenberg_id)
-    ).strip()
+def read_book(gutenberg_id, fetch_missing=False):
+    cached_fp = os.path.join(_TEXT_CACHE, '{0}.txt.gz'.format(gutenberg_id))
+    if not (fetch_missing or os.path.exists(cached_fp)):
+        return None
+
+    etext = load_etext(gutenberg_id, mirror="http://eremita.di.uminho.pt/gutenberg/")
+    return strip_headers(etext).strip()
 
 
 def get_author_library(author_name):
     logger.info(f'Loading library for {author_name}')
-    etext_ids = get_etexts('author', author_name)
+    etext_ids = get_etexts('author', author_name) & english_works
     work_ids, work_texts = [], []
     for pk in etext_ids:
         try:
@@ -73,8 +83,9 @@ def get_author_library(author_name):
             logger.warning(f'Missing text: {e}')
             continue
 
-        work_ids.append(pk)
-        work_texts.append(text)
+        if text:
+            work_ids.append(pk)
+            work_texts.append(text)
 
     work_titles = [
         next(iter(get_metadata('title', pk)))
@@ -124,5 +135,27 @@ def book_vs_author(library, nltk_model, spacy_model):
 
 
 if __name__ == '__main__':
-    for author in authors:
-        book_vs_author(*get_author_library(author))
+    # for author in authors:
+    #     book_vs_author(*get_author_library(author))
+
+    doc_groups = [
+        [
+            doc.nltk_terms
+            for doc in get_author_library(author)[0].values()
+        ][:20]
+        for author in authors
+    ]
+    corpus = itertools.chain(*doc_groups)
+    swlm = SignificantWordsLM(corpus, w=0.01)
+    for i, author in enumerate(authors):
+        group_terms, group_ps = zip(*swlm.group_top(40, doc_groups[i], max_iter=100))
+        group_term_idxs = [swlm.vocab[t] for t in group_terms]
+        corpus_ps = np.exp([swlm.p_corpus[i] for i in group_term_idxs])
+        specific_ps = np.exp([swlm.p_specific[i] for i in group_term_idxs])
+        rows = [row for row in zip(group_terms, group_ps, corpus_ps, specific_ps)]
+        print(f"SWLM for {author}:")
+        print(
+            tabulate(rows, headers=(
+                'Term', 'Group p', 'Corpus p', 'Specific p'
+            )) + "\n"
+        )
