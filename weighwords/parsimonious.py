@@ -6,15 +6,17 @@
 from collections import defaultdict
 from heapq import nlargest
 import logging
+from operator import itemgetter
+
 import numpy as np
 
-from .logsum import logsum
+from weighwords.logsum import logsum
 
 
 logger = logging.getLogger(__name__)
 
 
-class ParsimoniousLM(object):
+class ParsimoniousLM:
     """Language model for a set of documents.
 
     Constructing an object of this class fits a background model. The top
@@ -64,7 +66,7 @@ class ParsimoniousLM(object):
             np.seterr(**old_error_settings)
 
     def top(self, k, d, max_iter=50, eps=1e-5, w=None):
-        '''Get the top k terms of a document d and their log probabilities.
+        """Get the top k terms of a document d and their log probabilities.
 
         Uses the Expectation Maximization (EM) algorithm to estimate term
         probabilities.
@@ -81,16 +83,16 @@ class ParsimoniousLM(object):
         Returns
         -------
         t_p : list of (str, float)
-        '''
+        """
 
         tf, p_term = self._document_model(d)
         p_term = self._EM(tf, p_term, w, max_iter, eps)
 
         terms = [(t, p_term[i]) for t, i in self.vocab.items()]
-        return nlargest(k, terms, lambda tp: tp[1])
+        return nlargest(k, terms, itemgetter(1))
 
     def _document_model(self, d):
-        '''Build document model.
+        """Build document model.
 
         Parameters
         ----------
@@ -105,7 +107,7 @@ class ParsimoniousLM(object):
 
         Initial p_term is 1/n_distinct for terms with non-zero tf,
         0 for terms with 0 tf.
-        '''
+        """
 
         logger.info('Gathering term probabilities')
 
@@ -125,7 +127,7 @@ class ParsimoniousLM(object):
         return tf, p_term
 
     def _EM(self, tf, p_term, w, max_iter, eps):
-        '''Expectation maximization.
+        """Expectation maximization.
 
         Parameters
         ----------
@@ -140,7 +142,7 @@ class ParsimoniousLM(object):
         -------
         p_term : array of float
             A posteriori term probabilities.
-        '''
+        """
 
         logger.info('EM with max_iter=%d, eps=%g' % (max_iter, eps))
 

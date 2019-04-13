@@ -25,6 +25,6 @@ def logsum(x):
     # Use the max to normalize, as with the log this is what accumulates
     # the less errors
     vmax = x.max(axis=0)
-    out = np.log(np.sum(np.exp(x - vmax), axis=0))
+    out = np.log(np.nansum(np.exp(x - vmax), axis=0))
     out += vmax
     return out
