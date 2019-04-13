@@ -81,9 +81,11 @@ class SignificantWordsLM(ParsimoniousLM):
         self.p_group = self._estimate(p_group, p_specific, doc_term_frequencies, max_iter, eps)
         self.p_specific = p_specific
 
-        exp_p_group = np.exp(p_group)
+        return self.get_term_probabilities(self.p_group)
 
-        return {t: exp_p_group[i] for t, i in self.vocab.items()}
+    def get_term_probabilities(self, log_prob_distribution):
+        probabilities = np.exp(log_prob_distribution)
+        return {t: probabilities[i] for t, i in self.vocab.items()}
 
     def _estimate(self, p_group, p_specific, doc_tf, max_iter, eps):
         try:
