@@ -122,6 +122,11 @@ class SignificantWordsLM(ParsimoniousLM):
             'specific': specific_numerator - denominator,
             'group': group_numerator - denominator
         }
+        # prevent NaNs from causing downstream errors
+        for v in out.values():
+            v[np.isnan(v)] = np.NINF
+
+        return out
 
     def _m_step(self, expectation, log_doc_tf):
         group_numerator = logsum(log_doc_tf + expectation['group'])
@@ -162,9 +167,11 @@ class SignificantWordsLM(ParsimoniousLM):
             p_specific = (
                 logsum(complement_products)
                 - np.log(
-                    np.count_nonzero(complement_products > np.log(0), axis=0)
+                    np.count_nonzero(complement_products > np.NINF, axis=0)
                 )
             )
+            # prevent NaNs from causing downstream errors
+            p_specific[np.isnan(p_specific)] = np.NINF
         finally:
             np.seterr(**old_error_settings)
 
