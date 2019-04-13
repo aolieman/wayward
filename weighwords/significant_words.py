@@ -117,9 +117,9 @@ class SignificantWordsLM(ParsimoniousLM):
                 group_numerator
             )
         ]
-        return {
-            'corpus': corpus_numerator - denominator,
-            'specific': specific_numerator - denominator,
+        out = {
+            # 'corpus': corpus_numerator - denominator,
+            # 'specific': specific_numerator - denominator,
             'group': group_numerator - denominator
         }
         # prevent NaNs from causing downstream errors
