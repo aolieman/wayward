@@ -144,7 +144,7 @@ class ParsimoniousLM:
             A posteriori term probabilities.
         """
 
-        logger.info('EM with max_iter=%d, eps=%g' % (max_iter, eps))
+        logger.info(f'EM with max_iter={max_iter}, eps={eps}')
 
         if w is None:
             w = self.w
@@ -167,9 +167,8 @@ class ParsimoniousLM:
 
                 diff = new_p_term - p_term
                 p_term = new_p_term
-                if (diff < eps).all():
-                    logger.info('EM: convergence reached after %d iterations'
-                                % i)
+                if (diff[np.isfinite(diff)] < eps).all():
+                    logger.info(f'EM: convergence reached after {i} iterations')
                     break
         finally:
             np.seterr(**old_error_settings)

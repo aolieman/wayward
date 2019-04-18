@@ -97,7 +97,7 @@ class SignificantWordsLM(ParsimoniousLM):
 
                 diff = new_p_group - p_group
                 p_group = new_p_group
-                if (diff < eps).all():
+                if (diff[np.isfinite(diff)] < eps).all():
                     logger.info(f'EM: convergence reached after {i} iterations')
                     break
         finally:
