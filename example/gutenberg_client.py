@@ -3,6 +3,8 @@ import logging
 import os
 import re
 from collections import namedtuple
+from heapq import nlargest
+from operator import itemgetter
 
 import nltk
 import numpy as np
@@ -148,14 +150,28 @@ if __name__ == '__main__':
     corpus = itertools.chain(*doc_groups)
     swlm = SignificantWordsLM(corpus, w=0.01)
     for i, author in enumerate(authors):
-        group_terms, group_ps = zip(*swlm.group_top(40, doc_groups[i], max_iter=100))
-        group_term_idxs = [swlm.vocab[t] for t in group_terms]
-        corpus_ps = np.exp([swlm.p_corpus[i] for i in group_term_idxs])
-        specific_ps = np.exp([swlm.p_specific[i] for i in group_term_idxs])
-        rows = [row for row in zip(group_terms, group_ps, corpus_ps, specific_ps)]
+        k = 40
+        group_terms, group_ps = zip(*swlm.group_top(k, doc_groups[i], max_iter=100))
+        corpus_terms, corpus_ps = zip(*nlargest(
+            k,
+            swlm.get_term_probabilities(swlm.p_corpus).items(),
+            itemgetter(1)
+        ))
+        specific_terms, specific_ps = zip(*nlargest(
+            k,
+            swlm.get_term_probabilities(swlm.p_specific).items(),
+            itemgetter(1)
+        ))
+        rows = [row for row in zip(
+            group_terms, group_ps,
+            corpus_terms, corpus_ps,
+            specific_terms, specific_ps
+        )]
         print(f"SWLM for {author}:")
         print(
             tabulate(rows, headers=(
-                'Term', 'Group p', 'Corpus p', 'Specific p'
+                'Group term', 'Group p',
+                'Corpus term', 'Corpus p',
+                'Specific terms', 'Specific p'
             )) + "\n"
         )
