@@ -39,15 +39,18 @@ class SignificantWordsLM(ParsimoniousLM):
         self.lambda_specific = None
         self.p_group = None
         self.p_specific = None
+        self.fix_lambdas = False
 
     def group_top(self, k, document_group, **kwargs):
         term_probabilities = self.fit_parsimonious_group(document_group, **kwargs)
         return nlargest(k, term_probabilities.items(), itemgetter(1))
 
-    def fit_parsimonious_group(self, document_group, max_iter=50, eps=1e-5, w=None):
+    def fit_parsimonious_group(self, document_group, max_iter=50, eps=1e-5, w=None, fix_lambdas=False):
         if w is None:
             w = self.w
         assert 0 < w < 1, f"invalid w={w}; `w` needs a value between 0.0 and 1.0"
+
+        self.fix_lambdas = fix_lambdas
 
         document_models = [
             self._document_model(doc)
@@ -118,8 +121,8 @@ class SignificantWordsLM(ParsimoniousLM):
             )
         ]
         out = {
-            # 'corpus': corpus_numerator - denominator,
-            # 'specific': specific_numerator - denominator,
+            'corpus': corpus_numerator - denominator,
+            'specific': specific_numerator - denominator,
             'group': group_numerator - denominator
         }
         # prevent NaNs from causing downstream errors
@@ -129,9 +132,20 @@ class SignificantWordsLM(ParsimoniousLM):
         return out
 
     def _m_step(self, expectation, log_doc_tf):
-        group_numerator = logsum(log_doc_tf + expectation['group'])
+        term_weighted_group = log_doc_tf + expectation['group']
+        group_numerator = logsum(term_weighted_group)
         p_group = group_numerator - logsum(group_numerator)
-        # TODO: estimate lambdas
+
+        if self.fix_lambdas is False:
+            # estimate lambdas
+            corpus_numerator = logsum(np.transpose(log_doc_tf + expectation['corpus']))
+            specific_numerator = logsum(np.transpose(log_doc_tf + expectation['specific']))
+            group_numerator = logsum(np.transpose(term_weighted_group))
+            denominator = logsum(np.asarray([corpus_numerator, specific_numerator, group_numerator]))
+            self.lambda_corpus = corpus_numerator - denominator
+            self.lambda_specific = specific_numerator - denominator
+            self.lambda_group = group_numerator - denominator
+
         return p_group
 
     @staticmethod
