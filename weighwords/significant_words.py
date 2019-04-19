@@ -71,7 +71,9 @@ class SignificantWordsLM(ParsimoniousLM):
 
         p_specific = self._specific_model(doc_term_probs)
 
-        general_w = specific_w = np.log(0.5 * (1 - w))
+        # FIXME: magic constants
+        general_w = np.log(0.8 * (1 - w))
+        specific_w = np.log(0.2 * (1 - w))
         group_w = np.log(w)
         weights_shape = len(document_group)
         self.lambda_corpus = np.full(weights_shape, general_w, dtype=np.float)
