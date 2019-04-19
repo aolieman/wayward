@@ -71,7 +71,9 @@ class SignificantWordsLM(ParsimoniousLM):
 
         p_specific = self._specific_model(doc_term_probs)
 
-        general_w = specific_w = np.log(0.5 * (1 - w))
+        # FIXME: magic constants
+        general_w = np.log(0.8 * (1 - w))
+        specific_w = np.log(0.2 * (1 - w))
         group_w = np.log(w)
         weights_shape = len(document_group)
         self.lambda_corpus = np.full(weights_shape, general_w, dtype=np.float)
@@ -84,6 +86,12 @@ class SignificantWordsLM(ParsimoniousLM):
         self.p_group = self._estimate(p_group, p_specific, doc_term_frequencies, max_iter, eps)
         self.p_specific = p_specific
 
+        if self.fix_lambdas is False:
+            logger.info(
+                f'Final lambdas (mean): Corpus={np.mean(np.exp(self.lambda_corpus))}, '
+                f'Group={np.mean(np.exp(self.lambda_group))}, '
+                f'Specific={np.mean(np.exp(self.lambda_specific))}'
+            )
         return self.get_term_probabilities(self.p_group)
 
     def get_term_probabilities(self, log_prob_distribution):
