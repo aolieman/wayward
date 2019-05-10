@@ -22,24 +22,29 @@ class ParsimoniousLM:
     Constructing an object of this class fits a background model. The top
     method can then be used to fit document-specific models, also for unseen
     documents (with the same vocabulary as the background corpus).
-
-    Parameters
-    ----------
-    documents : iterable over iterable over terms
-    w : float
-        Weight of document model (1 - weight of corpus model)
-    thresh : int
-        Don't include words that occur < thresh times
-
-    Attributes
-    ----------
-    vocab : dict of term -> int
-        Mapping of terms to numeric indices
-    p_corpus : array of float
-        Log prob of terms
     """
 
     def __init__(self, documents, w, thresh=0):
+        """
+        Collect the vocabulary and fit the background model.
+
+        Parameters
+        ----------
+        documents : iterable over iterable over terms
+            All documents that should be included in the corpus model
+        w : float
+            Weight of document model (1 - weight of corpus model)
+        thresh : int
+            Don't include words that occur fewer than `thresh` times
+
+        Attributes
+        ----------
+        vocab : dict of term -> int
+            Mapping of terms to numeric indices
+        p_corpus : array of float
+            Log probability of terms in background model (indexed by `vocab`)
+
+        """
         logger.info('Building corpus model')
 
         self.w = w
@@ -66,7 +71,7 @@ class ParsimoniousLM:
             np.seterr(**old_error_settings)
 
     def top(self, k, d, max_iter=50, eps=1e-5, w=None):
-        """Get the top k terms of a document d and their log probabilities.
+        """Get the top `k` terms of a document `d` and their log probabilities.
 
         Uses the Expectation Maximization (EM) algorithm to estimate term
         probabilities.
