@@ -10,9 +10,11 @@ setup(
     license = "LGPL",
     packages = ["weighwords"],
     install_requires = ["numpy>=1.4.0"],
+    tests_require = ["pytest"],
     classifiers = [
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
+        "Programming Language :: Python :: 3.6",
         "Topic :: Text Processing",
     ]
 )

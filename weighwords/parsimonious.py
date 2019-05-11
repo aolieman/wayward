@@ -119,7 +119,12 @@ class ParsimoniousLM:
         tf = np.zeros(len(self.vocab), dtype=np.float)  # Term frequency
 
         for tok in d:
-            tf[self.vocab[tok]] += 1
+            term_id = self.vocab.get(tok)
+            if term_id:
+                tf[term_id] += 1
+
+        # ignore counts of terms with zero corpus probability
+        tf *= np.isfinite(self.p_corpus)
 
         n_distinct = (tf > 0).sum()
 
