@@ -41,7 +41,7 @@ def test_model_fit_shifty(swlm, doc_group):
 @pytest.fixture(scope="module")
 def swlm():
     # init an SWLM with uniform p_corpus
-    return SignificantWordsLM([colors], w=0.1)
+    return SignificantWordsLM([colors], lambdas=(0.7, 0.1, 0.2))
 
 
 @pytest.fixture(scope="module")
