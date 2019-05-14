@@ -56,7 +56,7 @@ class ParsimoniousLM:
                 i = vocab.setdefault(tok, len(vocab))
                 count[i] += 1
 
-        cf = np.empty(len(count), dtype=np.float)
+        cf = np.empty(len(count), dtype=np.double)
         for i, f in count.items():
             cf[i] = f
         rare = (cf < thresh)
@@ -116,7 +116,7 @@ class ParsimoniousLM:
 
         logger.info('Gathering term probabilities')
 
-        tf = np.zeros(len(self.vocab), dtype=np.float)  # Term frequency
+        tf = np.zeros(len(self.vocab), dtype=np.double)  # Term frequency
 
         for tok in d:
             term_id = self.vocab.get(tok)
