@@ -32,8 +32,9 @@ class SignificantWordsLM(ParsimoniousLM):
     p_corpus : array of float
         Log prob of terms
     """
-    def __init__(self, documents, w, thresh=0):
-        super().__init__(documents, w, thresh=thresh)
+    def __init__(self, documents, lambdas, thresh=0):
+        self.initial_lambdas = self.normalize_lambdas(lambdas)
+        super().__init__(documents, self.initial_lambdas[1], thresh=thresh)
         self.lambda_corpus = None
         self.lambda_group = None
         self.lambda_specific = None
@@ -45,10 +46,14 @@ class SignificantWordsLM(ParsimoniousLM):
         term_probabilities = self.fit_parsimonious_group(document_group, **kwargs)
         return nlargest(k, term_probabilities.items(), itemgetter(1))
 
-    def fit_parsimonious_group(self, document_group, max_iter=50, eps=1e-5, w=None, fix_lambdas=False):
-        if w is None:
-            w = self.w
-        assert 0 < w < 1, f"invalid w={w}; `w` needs a value between 0.0 and 1.0"
+    def fit_parsimonious_group(
+            self, document_group, max_iter=50, eps=1e-5, lambdas=None,
+            fix_lambdas=False, parsimonize_specific=False, post_parsimonize=False
+    ):
+        if lambdas is None:
+            lambdas = self.initial_lambdas
+        else:
+            lambdas = self.normalize_lambdas(lambdas)
 
         self.fix_lambdas = fix_lambdas
 
@@ -56,6 +61,8 @@ class SignificantWordsLM(ParsimoniousLM):
             self._document_model(doc)
             for doc in document_group
         ]
+        del document_group
+
         doc_term_frequencies = [tf for tf, _ in document_models]
         group_tf, p_group = self._group_model(
             doc_term_frequencies
@@ -70,21 +77,25 @@ class SignificantWordsLM(ParsimoniousLM):
             np.seterr(**old_error_settings)
 
         p_specific = self._specific_model(doc_term_probs)
+        if parsimonize_specific:
+            p_specific = self._EM(group_tf, p_specific, self.w, max_iter, eps)
 
-        # FIXME: magic constants
-        general_w = np.log(0.8 * (1 - w))
-        specific_w = np.log(0.2 * (1 - w))
-        group_w = np.log(w)
-        weights_shape = len(document_group)
-        self.lambda_corpus = np.full(weights_shape, general_w, dtype=np.float)
-        self.lambda_specific = np.full(weights_shape, specific_w, dtype=np.float)
-        self.lambda_group = np.full(weights_shape, group_w, dtype=np.float)
-        logger.info(
-            f'Lambdas initialized to: Corpus={np.exp(general_w)}, '
-            f'Group={w}, Specific={np.exp(specific_w)}'
-        )
-        self.p_group = self._estimate(p_group, p_specific, doc_term_frequencies, max_iter, eps)
         self.p_specific = p_specific
+
+        weights_shape = len(document_models)
+        general_w, group_w, specific_w = np.log(lambdas)
+        self.lambda_corpus = np.full(weights_shape, general_w, dtype=np.double)
+        self.lambda_specific = np.full(weights_shape, specific_w, dtype=np.double)
+        self.lambda_group = np.full(weights_shape, group_w, dtype=np.double)
+        logger.info(
+            f'Lambdas initialized to: Corpus={lambdas[0]}, '
+            f'Group={lambdas[1]}, Specific={lambdas[2]}'
+        )
+        self.p_group = self._estimate(
+            p_group, p_specific, doc_term_frequencies, max_iter, eps
+        )
+        if post_parsimonize:
+            self.p_group = self._EM(group_tf, self.p_group, self.w, max_iter, eps)
 
         if self.fix_lambdas is False:
             logger.info(
@@ -96,6 +107,7 @@ class SignificantWordsLM(ParsimoniousLM):
 
     def get_term_probabilities(self, log_prob_distribution):
         probabilities = np.exp(log_prob_distribution)
+        probabilities[np.isnan(probabilities)] = 0.
         return {t: probabilities[i] for t, i in self.vocab.items()}
 
     def _estimate(self, p_group, p_specific, doc_tf, max_iter, eps):
@@ -146,10 +158,16 @@ class SignificantWordsLM(ParsimoniousLM):
 
         if self.fix_lambdas is False:
             # estimate lambdas
-            corpus_numerator = logsum(np.transpose(log_doc_tf + expectation['corpus']))
-            specific_numerator = logsum(np.transpose(log_doc_tf + expectation['specific']))
+            corpus_numerator = logsum(
+                np.transpose(log_doc_tf + expectation['corpus'])
+            )
+            specific_numerator = logsum(
+                np.transpose(log_doc_tf + expectation['specific'])
+            )
             group_numerator = logsum(np.transpose(term_weighted_group))
-            denominator = logsum(np.asarray([corpus_numerator, specific_numerator, group_numerator]))
+            denominator = logsum(
+                np.asarray([corpus_numerator, specific_numerator, group_numerator])
+            )
             self.lambda_corpus = corpus_numerator - denominator
             self.lambda_specific = specific_numerator - denominator
             self.lambda_group = group_numerator - denominator
@@ -177,7 +195,7 @@ class SignificantWordsLM(ParsimoniousLM):
         ]
         # probability of term to be important in one doc, and not others
         complement_products = np.array([
-            document_term_probabilities[i] + complement
+            dlm + complement
             for i, dlm in enumerate(document_term_probabilities)
             for j, complement in enumerate(complements)
             if i != j
@@ -198,3 +216,14 @@ class SignificantWordsLM(ParsimoniousLM):
             np.seterr(**old_error_settings)
 
         return p_specific
+
+    @staticmethod
+    def normalize_lambdas(lambdas):
+        assert len(lambdas) == 3, f'lambdas should be a 3-tuple, not {lambdas}'
+        lambda_sum = sum(lambdas)
+        if abs(lambda_sum - 1) > 1e-10:
+            lambdas = tuple(
+                w / lambda_sum
+                for w in lambdas
+            )
+        return lambdas
