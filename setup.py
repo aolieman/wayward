@@ -8,13 +8,14 @@ setup(
     description = "Python library for creating word weights/word clouds from text",
     keywords = "word cloud nlp language model",
     license = "LGPL",
+    package_data = {"weighwords": ["py.typed"]},
     packages = ["weighwords"],
-    install_requires = ["numpy>=1.4.0"],
+    install_requires = ["numpy>=1.15.0"],
     tests_require = ["pytest"],
     classifiers = [
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Topic :: Text Processing",
     ]
 )

@@ -1,12 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-# Copyright 2011-2013 University of Amsterdam
+# Copyright 2011-2019 University of Amsterdam
 # Author: Lars Buitinck
+
+from __future__ import annotations
 
 from collections import defaultdict
 from heapq import nlargest
 import logging
 from operator import itemgetter
+from typing import Iterable, Optional
 
 import numpy as np
 
@@ -22,34 +25,39 @@ class ParsimoniousLM:
     Constructing an object of this class fits a background model. The top
     method can then be used to fit document-specific models, also for unseen
     documents (with the same vocabulary as the background corpus).
+
+    Parameters
+    ----------
+    documents : iterable over iterable over terms
+        All documents that should be included in the corpus model
+    w : float
+        Weight of document model (1 - weight of corpus model)
+    thresh : int
+        Don't include words that occur fewer than `thresh` times
+
+    Attributes
+    ----------
+    vocab : dict of term -> int
+        Mapping of terms to numeric indices
+    p_corpus : array of float
+        Log probability of terms in background model (indexed by `vocab`)
     """
 
-    def __init__(self, documents, w, thresh=0):
-        """
-        Collect the vocabulary and fit the background model.
-
-        Parameters
-        ----------
-        documents : iterable over iterable over terms
-            All documents that should be included in the corpus model
-        w : float
-            Weight of document model (1 - weight of corpus model)
-        thresh : int
-            Don't include words that occur fewer than `thresh` times
-
-        Attributes
-        ----------
-        vocab : dict of term -> int
-            Mapping of terms to numeric indices
-        p_corpus : array of float
-            Log probability of terms in background model (indexed by `vocab`)
-
-        """
+    def __init__(
+        self,
+        documents: Iterable[Iterable[str]],
+        w: float,
+        thresh: int = 0
+    ):
+        """Collect the vocabulary and fit the background model."""
         logger.info('Building corpus model')
 
         self.w = w
-        self.vocab = vocab = {}     # Vocabulary: maps terms to numeric indices
-        count = defaultdict(int)    # Corpus frequency
+        # Vocabulary: maps terms to numeric indices
+        vocab: dict[str, int]
+        self.vocab = vocab = {}
+        # Corpus frequency
+        count: dict[int, int] = defaultdict(int)
 
         for d in documents:
             for tok in d:
@@ -70,7 +78,14 @@ class ParsimoniousLM:
         finally:
             np.seterr(**old_error_settings)
 
-    def top(self, k, d, max_iter=50, eps=1e-5, w=None):
+    def top(
+        self,
+        k: int,
+        d: Iterable[str],
+        max_iter: int = 50,
+        eps: float = 1e-5,
+        w: Optional[float] = None
+    ) -> list[tuple[str, float]]:
         """Get the top `k` terms of a document `d` and their log probabilities.
 
         Uses the Expectation Maximization (EM) algorithm to estimate term
@@ -78,6 +93,10 @@ class ParsimoniousLM:
 
         Parameters
         ----------
+        k
+            Number of top terms to return
+        d
+            Terms that make up the document
         max_iter : int, optional
             Maximum number of iterations of EM algorithm to run.
         eps : float, optional
@@ -88,6 +107,7 @@ class ParsimoniousLM:
         Returns
         -------
         t_p : list of (str, float)
+            Terms and their log-probabilities in the parsimonious model
         """
 
         tf, p_term = self._document_model(d)
@@ -96,7 +116,7 @@ class ParsimoniousLM:
         terms = [(t, p_term[i]) for t, i in self.vocab.items()]
         return nlargest(k, terms, itemgetter(1))
 
-    def _document_model(self, d):
+    def _document_model(self, d: Iterable[str]) -> tuple[np.ndarray, np.ndarray]:
         """Build document model.
 
         Parameters
@@ -136,7 +156,14 @@ class ParsimoniousLM:
 
         return tf, p_term
 
-    def _EM(self, tf, p_term, w, max_iter, eps):
+    def _EM(
+        self,
+        tf: Iterable[int],
+        p_term: Iterable[float],
+        w: Optional[float],
+        max_iter: int,
+        eps: float
+    ) -> np.ndarray:
         """Expectation maximization.
 
         Parameters
