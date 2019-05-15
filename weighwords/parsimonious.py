@@ -29,11 +29,11 @@ class ParsimoniousLM:
     Parameters
     ----------
     documents : iterable over iterable over terms
-        All documents that should be included in the corpus model
+        All documents that should be included in the corpus model.
     w : float
-        Weight of document model (1 - weight of corpus model)
+        Weight of document model (1 - weight of corpus model).
     thresh : int
-        Don't include words that occur fewer than `thresh` times
+        Don't include words that occur fewer than `thresh` times.
 
     Attributes
     ----------
@@ -94,13 +94,13 @@ class ParsimoniousLM:
         Parameters
         ----------
         k
-            Number of top terms to return
+            Number of top terms to return.
         d
-            Terms that make up the document
+            Terms that make up the document.
         max_iter : int, optional
             Maximum number of iterations of EM algorithm to run.
         eps : float, optional
-            Convergence threshold for EM algorithm.
+            Epsilon: convergence threshold for EM algorithm.
         w : float, optional
             Weight of document model; overrides value given to __init__
 
@@ -174,6 +174,8 @@ class ParsimoniousLM:
             Term probabilities, as returned by document_model
         max_iter : int
             Number of iterations to run.
+        eps : float
+            Epsilon: convergence threshold for EM algorithm.
 
         Returns
         -------

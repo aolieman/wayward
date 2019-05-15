@@ -6,7 +6,7 @@
 import numpy as np
 
 
-def logsum(x):
+def logsum(x: np.ndarray) -> np.ndarray:
     """Computes the sum of x assuming x is in the log domain.
 
     Returns log(sum(exp(x))) while minimizing the possibility of
