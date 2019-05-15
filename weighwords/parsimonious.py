@@ -4,12 +4,13 @@
 # Author: Lars Buitinck
 
 from __future__ import annotations
+# TODO: remove redundant typing imports once PEP 585 is finalized
 
 from collections import defaultdict
 from heapq import nlargest
 import logging
 from operator import itemgetter
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Dict, List, Tuple
 
 import numpy as np
 
@@ -20,7 +21,8 @@ logger = logging.getLogger(__name__)
 
 
 class ParsimoniousLM:
-    """Language model for a set of documents.
+    """
+    Language model for a set of documents.
 
     Constructing an object of this class fits a background model. The top
     method can then be used to fit document-specific models, also for unseen
@@ -44,20 +46,20 @@ class ParsimoniousLM:
     """
 
     def __init__(
-        self,
-        documents: Iterable[Iterable[str]],
-        w: float,
-        thresh: int = 0
+            self,
+            documents: Iterable[Iterable[str]],
+            w: np.floating,
+            thresh: int = 0
     ):
         """Collect the vocabulary and fit the background model."""
         logger.info('Building corpus model')
 
         self.w = w
         # Vocabulary: maps terms to numeric indices
-        vocab: dict[str, int]
+        vocab: Dict[str, int]
         self.vocab = vocab = {}
         # Corpus frequency
-        count: dict[int, int] = defaultdict(int)
+        count: Dict[int, int] = defaultdict(int)
 
         for d in documents:
             for tok in d:
@@ -74,19 +76,20 @@ class ParsimoniousLM:
             old_error_settings = np.seterr(divide='ignore')
 
             # lg P(t|C)
-            self.p_corpus = np.log(cf) - np.log(np.sum(cf))
+            self.p_corpus: np.ndarray = np.log(cf) - np.log(np.sum(cf))
         finally:
             np.seterr(**old_error_settings)
 
     def top(
-        self,
-        k: int,
-        d: Iterable[str],
-        max_iter: int = 50,
-        eps: float = 1e-5,
-        w: Optional[float] = None
-    ) -> list[tuple[str, float]]:
-        """Get the top `k` terms of a document `d` and their log probabilities.
+            self,
+            k: int,
+            d: Iterable[str],
+            max_iter: int = 50,
+            eps: float = 1e-5,
+            w: Optional[np.floating] = None
+    ) -> List[Tuple[str, float]]:
+        """
+        Get the top `k` terms of a document `d` and their log probabilities.
 
         Uses the Expectation Maximization (EM) algorithm to estimate term
         probabilities.
@@ -116,8 +119,9 @@ class ParsimoniousLM:
         terms = [(t, p_term[i]) for t, i in self.vocab.items()]
         return nlargest(k, terms, itemgetter(1))
 
-    def _document_model(self, d: Iterable[str]) -> tuple[np.ndarray, np.ndarray]:
-        """Build document model.
+    def _document_model(self, d: Iterable[str]) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Build document model.
 
         Parameters
         ----------
@@ -157,14 +161,15 @@ class ParsimoniousLM:
         return tf, p_term
 
     def _EM(
-        self,
-        tf: Iterable[int],
-        p_term: Iterable[float],
-        w: Optional[float],
-        max_iter: int,
-        eps: float
+            self,
+            tf: np.ndarray,
+            p_term: np.ndarray,
+            w: Optional[np.floating],
+            max_iter: int,
+            eps: float
     ) -> np.ndarray:
-        """Expectation maximization.
+        """
+        Expectation maximization.
 
         Parameters
         ----------

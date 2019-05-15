@@ -1,6 +1,15 @@
+#!/usr/bin/env python3
+
+# Copyright 2019 TinQwise Stamkracht, University of Amsterdam
+# Author: Alex Olieman
+
+from __future__ import annotations
+# TODO: remove redundant typing imports once PEP 585 is finalized
+
 import logging
 from heapq import nlargest
 from operator import itemgetter
+from typing import Iterable, Optional, Sequence, Tuple, List, Dict
 
 import numpy as np
 
@@ -9,47 +18,97 @@ from weighwords.logsum import logsum
 
 logger = logging.getLogger(__name__)
 
+InitialLambdas = Tuple[np.floating, np.floating, np.floating]
+
 
 class SignificantWordsLM(ParsimoniousLM):
-    """Language model for a set of documents.
+    """
+    Language model that consists of three sub-models:
 
-    Constructing an object of this class fits a background model. The top
-    method can then be used to fit document-specific models, also for unseen
-    documents (with the same vocabulary as the background corpus).
+    - Corpus model: represents term probabilities in a (large) background collection;
+    - Group model: parsimonious term probabilities in a group of documents;
+    - Specific model: represents the same group, but is biased towards terms that
+      occur with a high frequency in single docs, and a low frequency in others.
 
     Parameters
     ----------
     documents : iterable over iterable over terms
-    w : float
-        Weight of document model (1 - weight of corpus model)
+        All documents that should be included in the corpus model.
+    lambdas : 3-tuple of floats
+        Weight of corpus, group, and specific models. Will be normalized
+        if the weights in the tuple don't sum to one.
     thresh : int
-        Don't include words that occur < thresh times
+        Don't include words that occur fewer than `thresh` times.
 
     Attributes
     ----------
     vocab : dict of term -> int
         Mapping of terms to numeric indices
     p_corpus : array of float
-        Log prob of terms
+        Log probability of terms in background model (indexed by `vocab`)
+    p_group : array of float
+        Log probability of terms in background model (indexed by `vocab`)
+    p_specific : array of float
+        Log probability of terms in background model (indexed by `vocab`)
+    lambda_corpus : array of float
+        Log probability (weight) of corpus model for documents
+    lambda_group : array of float
+        Log probability (weight) of group model for documents
+    lambda_specific : array of float
+        Log probability (weight) of specific model for documents
+
+    Methods
+    -------
+    fit_parsimonious_group(document_group, ...)
+        Estimates a document group model, parsimonized against the corpus
+        and specific models. The documents may be unseen, but terms that
+        are not in the vocabulary will be ignored.
+    group_top(k, document_group, ...)
+        Shortcut to fit the group model and retrieve the top `k` terms.
+    get_term_probabilities(log_prob_distribution)
+        Aligns a term distribution with the vocabulary, and transforms
+        the term log probabilities to linear probabilities.
+
+    See Also
+    --------
+    parsimonious.ParsimoniousLM : one-sided parsimonious model
     """
-    def __init__(self, documents, lambdas, thresh=0):
+
+    def __init__(
+            self,
+            documents: Iterable[Iterable[str]],
+            lambdas: InitialLambdas,
+            thresh: int = 0
+    ):
+        """Collect the vocabulary and fit the background model."""
         self.initial_lambdas = self.normalize_lambdas(lambdas)
         super().__init__(documents, self.initial_lambdas[1], thresh=thresh)
-        self.lambda_corpus = None
-        self.lambda_group = None
-        self.lambda_specific = None
-        self.p_group = None
-        self.p_specific = None
+        self.lambda_corpus: Optional[np.ndarray] = None
+        self.lambda_group: Optional[np.ndarray] = None
+        self.lambda_specific: Optional[np.ndarray] = None
+        self.p_group: Optional[np.ndarray] = None
+        self.p_specific: Optional[np.ndarray] = None
         self.fix_lambdas = False
 
-    def group_top(self, k, document_group, **kwargs):
+    def group_top(
+            self,
+            k: int,
+            document_group: Iterable[Iterable[str]],
+            **kwargs
+    ) -> List[Tuple[str, float]]:
         term_probabilities = self.fit_parsimonious_group(document_group, **kwargs)
         return nlargest(k, term_probabilities.items(), itemgetter(1))
 
     def fit_parsimonious_group(
-            self, document_group, max_iter=50, eps=1e-5, lambdas=None,
-            fix_lambdas=False, parsimonize_specific=False, post_parsimonize=False
-    ):
+            self,
+            document_group: Iterable[Iterable[str]],
+            max_iter: int = 50,
+            eps: float = 1e-5,
+            lambdas: Optional[InitialLambdas] = None,
+            fix_lambdas: bool = False,
+            parsimonize_specific: bool = False,
+            post_parsimonize: bool = False
+    ) -> Dict[str, float]:
         if lambdas is None:
             lambdas = self.initial_lambdas
         else:
@@ -105,12 +164,22 @@ class SignificantWordsLM(ParsimoniousLM):
             )
         return self.get_term_probabilities(self.p_group)
 
-    def get_term_probabilities(self, log_prob_distribution):
+    def get_term_probabilities(
+            self,
+            log_prob_distribution: np.ndarray
+    ) -> Dict[str, float]:
         probabilities = np.exp(log_prob_distribution)
         probabilities[np.isnan(probabilities)] = 0.
         return {t: probabilities[i] for t, i in self.vocab.items()}
 
-    def _estimate(self, p_group, p_specific, doc_tf, max_iter, eps):
+    def _estimate(
+            self,
+            p_group: np.ndarray,
+            p_specific: np.ndarray,
+            doc_tf: Sequence[np.ndarray],
+            max_iter: int,
+            eps: float
+    ) -> np.ndarray:
         try:
             old_error_settings = np.seterr(divide='ignore')
             log_doc_tf = np.log(doc_tf)
@@ -128,7 +197,11 @@ class SignificantWordsLM(ParsimoniousLM):
 
         return p_group
 
-    def _e_step(self, p_group, p_specific):
+    def _e_step(
+            self,
+            p_group: np.ndarray,
+            p_specific: np.ndarray
+    ) -> Dict[str, np.ndarray]:
         corpus_numerator = np.add.outer(self.lambda_corpus, self.p_corpus)
         specific_numerator = np.add.outer(self.lambda_specific, p_specific)
         group_numerator = np.add.outer(self.lambda_group, p_group)
@@ -151,7 +224,11 @@ class SignificantWordsLM(ParsimoniousLM):
 
         return out
 
-    def _m_step(self, expectation, log_doc_tf):
+    def _m_step(
+            self,
+            expectation: Dict[str, np.ndarray],
+            log_doc_tf: Sequence[np.ndarray]
+    ) -> np.ndarray:
         term_weighted_group = log_doc_tf + expectation['group']
         group_numerator = logsum(term_weighted_group)
         p_group = group_numerator - logsum(group_numerator)
@@ -175,7 +252,9 @@ class SignificantWordsLM(ParsimoniousLM):
         return p_group
 
     @staticmethod
-    def _group_model(document_term_frequencies):
+    def _group_model(
+            document_term_frequencies: Sequence[np.ndarray]
+    ) -> Tuple[np.ndarray, np.ndarray]:
         group_tf = np.array(document_term_frequencies).sum(axis=0)
 
         try:
@@ -187,7 +266,9 @@ class SignificantWordsLM(ParsimoniousLM):
         return group_tf, p_group
 
     @staticmethod
-    def _specific_model(document_term_probabilities):
+    def _specific_model(
+            document_term_probabilities: Sequence[np.ndarray]
+    ) -> np.ndarray:
         # complement events: 1 - p
         complements = [
             np.log1p(-np.exp(p_doc))
@@ -218,7 +299,7 @@ class SignificantWordsLM(ParsimoniousLM):
         return p_specific
 
     @staticmethod
-    def normalize_lambdas(lambdas):
+    def normalize_lambdas(lambdas: InitialLambdas) -> InitialLambdas:
         assert len(lambdas) == 3, f'lambdas should be a 3-tuple, not {lambdas}'
         lambda_sum = sum(lambdas)
         if abs(lambda_sum - 1) > 1e-10:
