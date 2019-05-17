@@ -1,13 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Find terms that distinguish various novels by Charles Dickens.
 # Note: if the w parameter is set wisely, no stop list is needed.
-
-from weighwords import ParsimoniousLM
 import gzip
 import logging
-import numpy as np
+import math
 import re
+from itertools import zip_longest
+
+import numpy as np
+
+from weighwords import ParsimoniousLM, SignificantWordsLM
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -27,8 +30,8 @@ endbook = """*** END OF THIS PROJECT GUTENBERG EBOOK """
 def read_book(title, num):
     """Returns generator over words in book num"""
 
-    logger.info("Fetching terms from %s" % title)
-    path = "%s.txt.utf8.gz" % num
+    logger.info(f"Fetching terms from {title}")
+    path = f"{num}.txt.utf8.gz"
     in_book = False
     for ln in gzip.open(path, 'rt', encoding='utf8'):
         if in_book and ln.startswith(endbook):
@@ -40,12 +43,30 @@ def read_book(title, num):
             in_book = True
 
 
-book_contents = [(title, list(read_book(title, num))) for title, num in books]
+def grouper(iterable, n, filler=None):
+    """Source: https://docs.python.org/3/library/itertools.html#itertools-recipes"""
+    args = [iter(iterable)] * n
+    return zip_longest(*args, fillvalue=filler)
 
-model = ParsimoniousLM([terms for title, terms in book_contents], w=.01)
+
+book_contents = [(title, list(read_book(title, num))) for title, num in books]
+corpus = [terms for title, terms in book_contents]
+
+plm = ParsimoniousLM(corpus, w=.01)
+swlm = SignificantWordsLM(corpus, lambdas=(.9, .01, .09))
 
 for title, terms in book_contents:
-    print("Top %d words in %s:" % (top_k, title))
-    for term, p in model.top(top_k, terms):
-        print("    %s %.4f" % (term, np.exp(p)))
+    plm_top = plm.top(top_k, terms)
+    swlm_top = swlm.group_top(
+        top_k,
+        grouper(terms, math.ceil(len(terms) / 10)),
+        fix_lambdas=True,
+    )
+    print(f"\nTop {top_k} words in {title}:")
+    print(f"\n{'PLM term':<16} {'PLM p':<12} {'SWLM term':<16} {'SWLM p':<6}")
+    for (plm_t, plm_p), (swlm_t, swlm_p) in zip(plm_top, swlm_top):
+        print(f"{plm_t:<16} {np.exp(plm_p):<12.4f} {swlm_t:<16} {swlm_p:.4f}")
     print("")
+
+
+
