@@ -26,11 +26,16 @@ or::
 
 References
 ----------
-D. Hiemstra, S. Robertson and H. Zaragoza (2004). `Parsimonious Language Models
+D. Hiemstra, S. Robertson, and H. Zaragoza (2004). `Parsimonious Language Models
 for Information Retrieval
 <http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.4.5806>`_.
 Proc. SIGIR'04.
 
-R. Kaptein, D. Hiemstra and J. Kamps (2010). `How different are Language Models
+R. Kaptein, D. Hiemstra, and J. Kamps (2010). `How different are Language Models
 and word clouds? <http://riannekaptein.woelmuis.nl/2010/kapt-how10.pdf>`_
 Proc. ECIR.
+
+M. Dehghani, H. Azarbonyad, J. Kamps, D. Hiemstra, and M. Marx (2016).
+`Luhn Revisited: Significant Words Language Models
+<https://djoerdhiemstra.com/wp-content/uploads/cikm2016.pdf>`_
+Proc. CKIM'16.
