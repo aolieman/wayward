@@ -9,7 +9,7 @@ from __future__ import annotations
 import logging
 from heapq import nlargest
 from operator import itemgetter
-from typing import Iterable, Optional, Sequence, Tuple, List, Dict
+from typing import Iterable, Optional, Sequence, Tuple, List, Dict, cast
 
 import numpy as np
 
@@ -303,8 +303,11 @@ class SignificantWordsLM(ParsimoniousLM):
         assert len(lambdas) == 3, f'lambdas should be a 3-tuple, not {lambdas}'
         lambda_sum = sum(lambdas)
         if abs(lambda_sum - 1) > 1e-10:
-            lambdas = tuple(
-                w / lambda_sum
-                for w in lambdas
+            lambdas = cast(
+                InitialLambdas,
+                tuple(
+                    w / lambda_sum
+                    for w in lambdas
+                )
             )
         return lambdas
