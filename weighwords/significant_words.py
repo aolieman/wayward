@@ -200,7 +200,7 @@ class SignificantWordsLM(ParsimoniousLM):
 
         p_specific = self._specific_model(doc_term_probs)
         if parsimonize_specific:
-            p_specific = self._EM(group_tf, p_specific, self.w, max_iter, eps)
+            p_specific = self._EM(group_tf, p_specific, 1/3, max_iter, eps)
 
         self.p_specific = p_specific
 
@@ -210,8 +210,8 @@ class SignificantWordsLM(ParsimoniousLM):
         self.lambda_specific = np.full(weights_shape, specific_w, dtype=np.double)
         self.lambda_group = np.full(weights_shape, group_w, dtype=np.double)
         logger.info(
-            f'Lambdas initialized to: Corpus={lambdas[0]}, '
-            f'Group={lambdas[1]}, Specific={lambdas[2]}'
+            f'Lambdas initialized to: Corpus={lambdas[0]:.4f}, '
+            f'Group={lambdas[1]:.4f}, Specific={lambdas[2]:.4f}'
         )
         self.p_group = self._estimate(
             p_group, p_specific, doc_term_frequencies, max_iter, eps
@@ -221,9 +221,10 @@ class SignificantWordsLM(ParsimoniousLM):
 
         if self.fix_lambdas is False:
             logger.info(
-                f'Final lambdas (mean): Corpus={np.mean(np.exp(self.lambda_corpus))}, '
-                f'Group={np.mean(np.exp(self.lambda_group))}, '
-                f'Specific={np.mean(np.exp(self.lambda_specific))}'
+                f'Final lambdas (mean): '
+                f'Corpus={np.mean(np.exp(self.lambda_corpus)):.4f}, '
+                f'Group={np.mean(np.exp(self.lambda_group)):.4f}, '
+                f'Specific={np.mean(np.exp(self.lambda_specific)):.4f}'
             )
         return self.get_term_probabilities(self.p_group)
 

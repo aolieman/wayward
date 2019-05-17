@@ -5,7 +5,7 @@ from functools import reduce
 import numpy as np
 import pytest
 
-from weighwords.significant_words import SignificantWordsLM
+from weighwords import SignificantWordsLM
 
 logging.basicConfig(level=logging.INFO)
 
