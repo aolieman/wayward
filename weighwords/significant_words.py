@@ -285,8 +285,8 @@ class SignificantWordsLM(ParsimoniousLM):
         specific_numerator = np.add.outer(self.lambda_specific, p_specific)
         group_numerator = np.add.outer(self.lambda_group, p_group)
         denominator = [
-            logsum(np.asarray([sp_corpus, sp_corpus, sp_specific]))
-            for sp_corpus, sp_corpus, sp_specific in zip(
+            logsum(np.asarray(doc_numerators))
+            for doc_numerators in zip(
                 corpus_numerator,
                 specific_numerator,
                 group_numerator
