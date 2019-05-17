@@ -30,7 +30,7 @@ class ParsimoniousLM:
 
     Parameters
     ----------
-    documents : iterable over iterable over terms
+    documents : iterable over iterable of str terms
         All documents that should be included in the corpus model.
     w : float
         Weight of document model (1 - weight of corpus model).
@@ -43,6 +43,13 @@ class ParsimoniousLM:
         Mapping of terms to numeric indices
     p_corpus : array of float
         Log probability of terms in background model (indexed by `vocab`)
+
+    References
+    ----------
+    D. Hiemstra, S. Robertson, and H. Zaragoza (2004).
+    `Parsimonious Language Models for Information Retrieval
+    <http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.4.5806>`_.
+    Proc. SIGIR'04.
     """
 
     def __init__(
@@ -96,9 +103,9 @@ class ParsimoniousLM:
 
         Parameters
         ----------
-        k
+        k : int
             Number of top terms to return.
-        d
+        d : iterable of str terms
             Terms that make up the document.
         max_iter : int, optional
             Maximum number of iterations of EM algorithm to run.
@@ -110,7 +117,7 @@ class ParsimoniousLM:
         Returns
         -------
         t_p : list of (str, float)
-            Terms and their log-probabilities in the parsimonious model
+            Terms and their log-probabilities in the parsimonious model.
         """
 
         tf, p_term = self._document_model(d)
@@ -125,7 +132,7 @@ class ParsimoniousLM:
 
         Parameters
         ----------
-        d : array of terms
+        d : iterable of str terms
 
         Returns
         -------
