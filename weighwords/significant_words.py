@@ -205,6 +205,9 @@ class SignificantWordsLM(ParsimoniousLM):
         self.p_specific = p_specific
 
         weights_shape = len(document_models)
+        if self.fix_lambdas:
+            weights_shape = 1
+
         general_w, group_w, specific_w = np.log(lambdas)
         self.lambda_corpus = np.full(weights_shape, general_w, dtype=np.double)
         self.lambda_specific = np.full(weights_shape, specific_w, dtype=np.double)
