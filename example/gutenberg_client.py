@@ -1,10 +1,12 @@
+import functools
 import itertools
 import logging
 import os
+import pickle
 import re
 from collections import namedtuple
 from heapq import nlargest
-from operator import itemgetter
+from operator import itemgetter, attrgetter
 
 import nltk
 import numpy as np
@@ -17,8 +19,7 @@ from gutenberg.query import get_etexts, get_metadata
 from spacy.tokenizer import Tokenizer
 from tabulate import tabulate
 
-from weighwords import ParsimoniousLM
-from weighwords.significant_words import SignificantWordsLM
+from weighwords import ParsimoniousLM, SignificantWordsLM
 
 authors = [
     'Carroll, Lewis',
@@ -26,15 +27,13 @@ authors = [
     'Doyle, Arthur Conan',
     'Wells, H. G. (Herbert George)',
 ]
-english_works = get_etexts('language', 'en')
-
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-top_k = 20  # How many terms per book to retrieve
+top_k = 40  # How many terms per book to retrieve
 
-en_weights = spacy.load('en_core_web_sm')
-nn_tokenizer = Tokenizer(en_weights.vocab)
+# en_weights = spacy.load('en_core_web_sm')
+# nn_tokenizer = Tokenizer(en_weights.vocab)
 sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
 token_re = re.compile(r'\w{2,}')
 
@@ -58,7 +57,7 @@ def spacy_tokenize(text):
 def nltk_tokenize(text):
     sents = sent_detector.sentences_from_text(text)
     return [
-        w.strip().lower()
+        w.strip(' _*').lower()
         for s in sents
         for w in nltk.tokenize.word_tokenize(s)
         if token_re.search(w)
@@ -74,44 +73,75 @@ def read_book(gutenberg_id, fetch_missing=False):
     return strip_headers(etext).strip()
 
 
-def get_author_library(author_name):
+@functools.lru_cache(maxsize=10)
+def language_filter(lang_code):
+    return get_etexts('language', lang_code)
+
+
+def get_author_library(author_name, refresh_cache=False, for_plm=False):
     logger.info(f'Loading library for {author_name}')
-    etext_ids = get_etexts('author', author_name) & english_works
-    work_ids, work_texts = [], []
-    for pk in etext_ids:
-        try:
-            text = read_book(pk)
-        except UnknownDownloadUriException as e:
-            logger.warning(f'Missing text: {e}')
-            continue
 
-        if text:
-            work_ids.append(pk)
-            work_texts.append(text)
+    cached_library = get_cached_library(author_name)
+    if cached_library and not refresh_cache:
+        library, nltk_terms, spacy_terms = cached_library
+    else:
+        work_ids, work_texts = [], []
+        etext_ids = get_etexts('author', author_name) & language_filter('en')
+        for pk in etext_ids:
+            try:
+                text = read_book(pk)
+            except UnknownDownloadUriException as e:
+                logger.warning(f'Missing text: {e}')
+                continue
 
-    work_titles = [
-        next(iter(get_metadata('title', pk)))
-        for pk in work_ids
-    ]
-    nltk_terms = [nltk_tokenize(d) for d in work_texts]
-    spacy_terms = [spacy_tokenize(d) for d in work_texts]
+            if text:
+                work_ids.append(pk)
+                work_texts.append(text)
 
-    library = {
-        pk: Document(
-            pk,
-            *values
+        work_titles = [
+            next(iter(get_metadata('title', pk)))
+            for pk in work_ids
+        ]
+        nltk_terms = [nltk_tokenize(d) for d in work_texts]
+        spacy_terms = nltk_terms #[spacy_tokenize(d) for d in work_texts]
+
+        library = {
+            pk: Document(
+                pk,
+                *values
+            )
+            for pk, *values in zip(
+                work_ids,
+                work_titles,
+                work_texts,
+                nltk_terms,
+                spacy_terms
+            )
+        }
+        cache_library(
+            author_name,
+            (library, nltk_terms, spacy_terms)
         )
-        for pk, *values in zip(
-            work_ids,
-            work_titles,
-            work_texts,
-            nltk_terms,
-            spacy_terms
-        )
-    }
-    nltk_model = ParsimoniousLM(nltk_terms, w=.01)
-    spacy_model = ParsimoniousLM(spacy_terms, w=.01)
-    return library, nltk_model, spacy_model
+
+    if for_plm:
+        nltk_model = ParsimoniousLM(nltk_terms, w=.01)
+        spacy_model = None #ParsimoniousLM(spacy_terms, w=.01)
+        return library, nltk_model, spacy_model
+
+    return library
+
+
+def get_cached_library(author_name):
+    try:
+        with open(f'{author_name}.library', 'rb') as f:
+            return pickle.load(f)
+    except IOError:
+        return None
+
+
+def cache_library(author_name, library_tuple):
+    with open(f'{author_name}.library', 'wb') as f:
+        pickle.dump(library_tuple, f)
 
 
 def book_vs_author(library, nltk_model, spacy_model):
@@ -138,27 +168,39 @@ def book_vs_author(library, nltk_model, spacy_model):
 
 if __name__ == '__main__':
     # for author in authors:
-    #     book_vs_author(*get_author_library(author))
+    #     book_vs_author(*get_author_library(author, for_plm=True))
 
-    doc_groups = [
-        [
-            doc.nltk_terms
-            for doc in get_author_library(author)[0].values()
-        ][:20]
+    libraries = {
+        author: nlargest(
+            15,  # n books with highest term counts
+            get_author_library(author, refresh_cache=False).values(),
+            key=lambda d: len(d.nltk_terms)
+        )
         for author in authors
-    ]
-    corpus = itertools.chain(*doc_groups)
-    swlm = SignificantWordsLM(corpus, w=0.01)
-    for i, author in enumerate(authors):
-        k = 40
-        group_terms, group_ps = zip(*swlm.group_top(k, doc_groups[i], max_iter=100))
+    }
+    corpus = itertools.chain.from_iterable(
+        map(attrgetter('nltk_terms'), library)
+        for library in libraries.values()
+    )
+    swlm = SignificantWordsLM(corpus, lambdas=(.9, .01, .09), thresh=5)
+    for author, library in libraries.items():
+        doc_group = map(attrgetter('nltk_terms'), library)
+        group_terms, group_ps = zip(
+            *swlm.group_top(
+                top_k,
+                doc_group,
+                max_iter=100,
+                fix_lambdas=True,
+                parsimonize_specific=False
+            )
+        )
         corpus_terms, corpus_ps = zip(*nlargest(
-            k,
+            top_k,
             swlm.get_term_probabilities(swlm.p_corpus).items(),
             itemgetter(1)
         ))
         specific_terms, specific_ps = zip(*nlargest(
-            k,
+            top_k,
             swlm.get_term_probabilities(swlm.p_specific).items(),
             itemgetter(1)
         ))
@@ -167,11 +209,37 @@ if __name__ == '__main__':
             corpus_terms, corpus_ps,
             specific_terms, specific_ps
         )]
-        print(f"SWLM for {author}:")
+        print(f"SWLM for {author}:", flush=True)
         print(
             tabulate(rows, headers=(
                 'Group term', 'Group p',
                 'Corpus term', 'Corpus p',
                 'Specific terms', 'Specific p'
-            )) + "\n"
+            )) + "\n",
+            flush=True
+        )
+
+        lambda_group = np.exp(swlm.lambda_group)
+        lambda_corpus = np.exp(swlm.lambda_corpus)
+        lambda_specific = np.exp(swlm.lambda_specific)
+        if len(lambda_group) == 1:
+            lambda_group = len(library) * list(lambda_group)
+            lambda_corpus = len(library) * list(lambda_corpus)
+            lambda_specific = len(library) * list(lambda_specific)
+
+        doc_lambdas = zip(
+            map(attrgetter('pk'), library),
+            map(lambda d: d.title[:50], library),
+            lambda_group,
+            lambda_corpus,
+            lambda_specific
+        )
+        print(
+            tabulate(
+                sorted(doc_lambdas, key=itemgetter(2), reverse=True),
+                headers=(
+                    'ID', 'Title', 'Group L', 'Corpus L', 'Specific L'
+                )
+            ) + "\n",
+            flush=True
         )
