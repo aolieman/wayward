@@ -200,7 +200,13 @@ class SignificantWordsLM(ParsimoniousLM):
 
         p_specific = self._specific_model(doc_term_probs)
         if parsimonize_specific:
-            p_specific = self._EM(group_tf, p_specific, 1/3, max_iter, eps)
+            p_specific = self._EM(
+                group_tf,
+                p_specific,
+                cast(np.floating, 1/3),
+                max_iter,
+                eps
+            )
 
         self.p_specific = p_specific
 
