@@ -1,7 +1,4 @@
-import re
 from itertools import chain
-
-import pytest
 
 from weighwords import ParsimoniousLM, SignificantWordsLM
 from weighwords.logsum import logsum
@@ -31,30 +28,6 @@ def test_model_non_equivalence(shakespeare_quotes):
     plm_terms, swlm_terms = fit_models(plm, swlm, shakespeare_quotes)
 
     assert plm_terms != swlm_terms, 'PLM and SWLM should not be functionally equivalent'
-
-
-@pytest.fixture(scope="module")
-def shakespeare_quotes():
-    quotes = [
-        "Love all, trust a few, Do wrong to none",
-        "But love that comes too late, "
-        "Like a remorseful pardon slowly carried, "
-        "To the great sender turns a sour offence.",
-        "If thou remember'st not the slightest folly "
-        "That ever love did make thee run into, "
-        "Thou hast not lov'd.",
-        "We that are true lovers run into strange capers; "
-        "but as all is mortal in nature, "
-        "so is all nature in love mortal in folly.",
-        "But are you so much in love as your rhymes speak? "
-        "Neither rhyme nor reason can express how much.",
-        "A lover's eyes will gaze an eagle blind. "
-        "A lover's ear will hear the lowest sound.",
-    ]
-    return [
-        re.sub(r"[.,:;!?\"‘’]|'s\b", " ", quote).lower().split()
-        for quote in quotes
-    ]
 
 
 def get_p_corpus(language_model):
