@@ -136,7 +136,7 @@ class ParsimoniousLM:
 
         Returns
         -------
-        tf : array of int
+        tf : array of float
             Term frequencies
         p_term : array of float
             Term log probabilities

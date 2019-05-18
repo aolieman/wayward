@@ -41,9 +41,9 @@ Usage
         for quote in quotes
     ]
 
-The `ParsimoniousLM` is initialized with all document tokens as a
+The ``ParsimoniousLM`` is initialized with all document tokens as a
 background corpus, and subsequently takes a single document's tokens
-as input. Its `top` method returns the top terms and their log-probabilities:
+as input. Its ``top`` method returns the top terms and their log-probabilities:
 
 >>> plm = ParsimoniousLM(doc_tokens, w=.1)
 >>> plm.top(10, doc_tokens[-1])
@@ -58,8 +58,8 @@ as input. Its `top` method returns the top terms and their log-probabilities:
  ('hear', -2.5649494422113044),
  ('lowest', -2.5649494422113044)]
 
-The `SignificantWordsLM` is similarly initialized with a background corpus,
-but subsequently takes a group of document tokens as input. Its `group_top`
+The ``SignificantWordsLM`` is similarly initialized with a background corpus,
+but subsequently takes a group of document tokens as input. Its ``group_top``
 method returns the top terms and their probabilities:
 
 >>> swlm = SignificantWordsLM(doc_tokens, lambdas=(.7, .1, .2))
@@ -75,7 +75,7 @@ method returns the top terms and their probabilities:
  ('strange', 0.03597866180849914),
  ('capers', 0.03597866180849914)]
 
-See `example/dickens.py` for a running example with more realistic data.
+See ``example/dickens.py`` for a running example with more realistic data.
 
 References
 ----------
