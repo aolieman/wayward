@@ -11,6 +11,7 @@ from operator import itemgetter, attrgetter
 import nltk
 import numpy as np
 import spacy
+from gensim.models import Phrases
 from gutenberg._domain_model.exceptions import UnknownDownloadUriException
 from gutenberg.acquire import load_etext
 from gutenberg.acquire.text import _TEXT_CACHE
@@ -41,8 +42,7 @@ Document = namedtuple('Document', [
     'pk',
     'title',
     'text',
-    'nltk_terms',
-    'spacy_terms'
+    'terms'
 ])
 
 
@@ -56,12 +56,12 @@ def spacy_tokenize(text):
 
 def nltk_tokenize(text):
     sents = sent_detector.sentences_from_text(text)
-    return [
-        w.strip(' _*').lower()
-        for s in sents
-        for w in nltk.tokenize.word_tokenize(s)
-        if token_re.search(w)
-    ]
+    for s in sents:
+        yield [
+            w.strip(' _*').lower()
+            for w in nltk.tokenize.word_tokenize(s)
+            if token_re.search(w)
+        ]
 
 
 def read_book(gutenberg_id, fetch_missing=False):
@@ -83,7 +83,7 @@ def get_author_library(author_name, refresh_cache=False, for_plm=False):
 
     cached_library = get_cached_library(author_name)
     if cached_library and not refresh_cache:
-        library, nltk_terms, spacy_terms = cached_library
+        library, work_terms = cached_library
     else:
         work_ids, work_texts = [], []
         etext_ids = get_etexts('author', author_name) & language_filter('en')
@@ -102,8 +102,23 @@ def get_author_library(author_name, refresh_cache=False, for_plm=False):
             next(iter(get_metadata('title', pk)))
             for pk in work_ids
         ]
-        nltk_terms = [nltk_tokenize(d) for d in work_texts]
-        spacy_terms = nltk_terms #[spacy_tokenize(d) for d in work_texts]
+        work_sentences = [list(nltk_tokenize(d)) for d in work_texts]
+        bigram_model = Phrases(
+            itertools.chain.from_iterable(work_sentences),
+            threshold=12
+        )
+        trigram_model = Phrases(
+            bigram_model[itertools.chain.from_iterable(work_sentences)],
+            threshold=12
+        )
+        work_terms = [
+            list(
+                itertools.chain.from_iterable(
+                    trigram_model[bigram_model[work]]
+                )
+            )
+            for work in work_sentences
+        ]
 
         library = {
             pk: Document(
@@ -114,19 +129,17 @@ def get_author_library(author_name, refresh_cache=False, for_plm=False):
                 work_ids,
                 work_titles,
                 work_texts,
-                nltk_terms,
-                spacy_terms
+                work_terms,
             )
         }
         cache_library(
             author_name,
-            (library, nltk_terms, spacy_terms)
+            (library, work_terms)
         )
 
     if for_plm:
-        nltk_model = ParsimoniousLM(nltk_terms, w=.01)
-        spacy_model = None #ParsimoniousLM(spacy_terms, w=.01)
-        return library, nltk_model, spacy_model
+        plm = ParsimoniousLM(work_terms, w=.01)
+        return library, plm
 
     return library
 
@@ -174,17 +187,17 @@ if __name__ == '__main__':
         author: nlargest(
             15,  # n books with highest term counts
             get_author_library(author, refresh_cache=False).values(),
-            key=lambda d: len(d.nltk_terms)
+            key=lambda d: len(d.terms)
         )
         for author in authors
     }
     corpus = itertools.chain.from_iterable(
-        map(attrgetter('nltk_terms'), library)
+        map(attrgetter('terms'), library)
         for library in libraries.values()
     )
     swlm = SignificantWordsLM(corpus, lambdas=(.9, .01, .09), thresh=5)
     for author, library in libraries.items():
-        doc_group = map(attrgetter('nltk_terms'), library)
+        doc_group = map(attrgetter('terms'), library)
         group_terms, group_ps = zip(
             *swlm.group_top(
                 top_k,
