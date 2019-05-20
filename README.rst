@@ -31,20 +31,21 @@ or::
 Usage
 -----
 >>> quotes = [
-        "Love all, trust a few, Do wrong to none",
-        ...
-        "A lover's eyes will gaze an eagle blind. "
-        "A lover's ear will hear the lowest sound.",
-    ]
+...     "Love all, trust a few, Do wrong to none",
+...     ...
+...     "A lover's eyes will gaze an eagle blind. "
+...     "A lover's ear will hear the lowest sound.",
+... ]
 >>> doc_tokens = [
-        re.sub(r"[.,:;!?\"‘’]|'s\b", " ", quote).lower().split()
-        for quote in quotes
-    ]
+...     re.sub(r"[.,:;!?\"‘’]|'s\b", " ", quote).lower().split()
+...     for quote in quotes
+... ]
 
 The ``ParsimoniousLM`` is initialized with all document tokens as a
 background corpus, and subsequently takes a single document's tokens
 as input. Its ``top`` method returns the top terms and their log-probabilities:
 
+>>> from weighwords import  ParsimoniousLM
 >>> plm = ParsimoniousLM(doc_tokens, w=.1)
 >>> plm.top(10, doc_tokens[-1])
 [('lover', -1.871802261651365),
@@ -62,6 +63,7 @@ The ``SignificantWordsLM`` is similarly initialized with a background corpus,
 but subsequently takes a group of document tokens as input. Its ``group_top``
 method returns the top terms and their probabilities:
 
+>>> from weighwords import SignificantWordsLM
 >>> swlm = SignificantWordsLM(doc_tokens, lambdas=(.7, .1, .2))
 >>> swlm.group_top(10, doc_tokens[-3:])
 [('in', 0.37875318027881),
@@ -85,10 +87,10 @@ for Information Retrieval
 Proc. SIGIR'04.
 
 R. Kaptein, D. Hiemstra, and J. Kamps (2010). `How different are Language Models
-and word clouds? <http://riannekaptein.woelmuis.nl/2010/kapt-how10.pdf>`_
-Proc. ECIR.
+and word clouds? <http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.189.822>`_.
+Proc. ECIR'10.
 
 M. Dehghani, H. Azarbonyad, J. Kamps, D. Hiemstra, and M. Marx (2016).
 `Luhn Revisited: Significant Words Language Models
-<https://djoerdhiemstra.com/wp-content/uploads/cikm2016.pdf>`_
+<https://djoerdhiemstra.com/wp-content/uploads/cikm2016.pdf>`_.
 Proc. CKIM'16.

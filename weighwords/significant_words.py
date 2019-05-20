@@ -77,7 +77,7 @@ class SignificantWordsLM(ParsimoniousLM):
     ----------
     M. Dehghani, H. Azarbonyad, J. Kamps, D. Hiemstra, and M. Marx (2016).
     `Luhn Revisited: Significant Words Language Models
-    <https://djoerdhiemstra.com/wp-content/uploads/cikm2016.pdf>`_
+    <https://djoerdhiemstra.com/wp-content/uploads/cikm2016.pdf>`_.
     Proc. CKIM'16.
     """
 
