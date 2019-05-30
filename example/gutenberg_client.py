@@ -23,11 +23,14 @@ from tabulate import tabulate
 from weighwords import ParsimoniousLM, SignificantWordsLM
 
 authors = [
-    'Carroll, Lewis',
-    'Melville, Herman',
-    'Doyle, Arthur Conan',
-    'Wells, H. G. (Herbert George)',
+    'Couperus, Louis',
+    'Eeden, Frederik van',
+    'Gorter, Herman',
+    'Hildebrand',
+    'Verwey, Albert',
+    'Deyssel, Lodewijk van',
 ]
+language = ('nl', 'dutch')
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
@@ -35,7 +38,7 @@ top_k = 40  # How many terms per book to retrieve
 
 # en_weights = spacy.load('en_core_web_sm')
 # nn_tokenizer = Tokenizer(en_weights.vocab)
-sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
+sent_detector = nltk.data.load(f'tokenizers/punkt/{language[1]}.pickle')
 token_re = re.compile(r'\w{2,}')
 
 Document = namedtuple('Document', [
@@ -56,15 +59,19 @@ def spacy_tokenize(text):
 
 def nltk_tokenize(text):
     sents = sent_detector.sentences_from_text(text)
+    strip_chars = ' _*'
+    if language[0] == 'nl':
+        strip_chars += "'"
+
     for s in sents:
         yield [
-            w.strip(' _*').lower()
+            w.strip(strip_chars).lower()
             for w in nltk.tokenize.word_tokenize(s)
             if token_re.search(w)
         ]
 
 
-def read_book(gutenberg_id, fetch_missing=False):
+def read_book(gutenberg_id, fetch_missing=True):
     cached_fp = os.path.join(_TEXT_CACHE, '{0}.txt.gz'.format(gutenberg_id))
     if not (fetch_missing or os.path.exists(cached_fp)):
         return None
@@ -86,7 +93,7 @@ def get_author_library(author_name, refresh_cache=False, for_plm=False):
         library, work_terms = cached_library
     else:
         work_ids, work_texts = [], []
-        etext_ids = get_etexts('author', author_name) & language_filter('en')
+        etext_ids = get_etexts('author', author_name) & language_filter(language[0])
         for pk in etext_ids:
             try:
                 text = read_book(pk)
@@ -185,12 +192,25 @@ if __name__ == '__main__':
 
     libraries = {
         author: nlargest(
-            15,  # n books with highest term counts
+            20,  # n books with highest term counts
             get_author_library(author, refresh_cache=False).values(),
             key=lambda d: len(d.terms)
         )
         for author in authors
     }
+    for author, library in libraries.items():
+        titles = set()
+        docs = []
+        for doc in library:
+            if doc.title not in titles:
+                docs.append(doc)
+                titles.add(doc.title)
+
+            if len(docs) >= 15:
+                break
+
+        libraries[author] = docs
+
     corpus = itertools.chain.from_iterable(
         map(attrgetter('terms'), library)
         for library in libraries.values()

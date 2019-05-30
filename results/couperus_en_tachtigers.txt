@@ -1,0 +1,314 @@
+
+SWLM for Couperus, Louis:
+Group term       Group p  Corpus term      Corpus p  Specific terms      Specific p
+------------  ----------  -------------  ----------  ----------------  ------------
+je            0.0669166   en             0.0408724   en                  0.0419303
+hare          0.0192318   de             0.0386994   de                  0.0378315
+me            0.0149743   het            0.0249583   het                 0.0242872
+terwijl       0.0144947   van            0.0224864   van                 0.0223507
+steeds        0.0142277   een            0.0209144   een                 0.0195578
+sprak         0.0127265   in             0.0190694   in                  0.0189357
+paul          0.011224    zij            0.0183579   zij                 0.0153978
+terug         0.0102617   hij            0.0151225   ik                  0.0143903
+heur          0.0093325   dat            0.0142079   hij                 0.0139821
+jullie        0.00913068  haar           0.0119525   andré               0.0137326
+riep          0.00899717  zijn           0.0117022   dat                 0.013567
+niet_meer     0.00889082  met            0.0114992   gawein              0.0125097
+een_weinig    0.00887538  die            0.0113695   niet                0.0119425
+rome          0.00861648  niet           0.0112894   die                 0.0117687
+elkaâr        0.00774308  was            0.0107774   met                 0.0114449
+jongens       0.00612635  ik             0.00989671  zijn                0.0112405
+lachte        0.0058812   op             0.00981326  duc                 0.00976175
+georges       0.00587446  maar           0.00841604  frank               0.00970487
+zichzelve     0.00586499  als            0.00832695  als                 0.00949859
+glimlachend   0.00550262  te             0.00827846  op                  0.0094181
+moê           0.00537822  is             0.00712595  is                  0.0093961
+zelve         0.00536231  aan            0.00695341  was                 0.00915736
+ben           0.00529857  den            0.00635122  maar                0.00887192
+vroeg         0.005019    had            0.00630724  haar                0.00820237
+zeide         0.004919    zoo            0.00618996  te                  0.00716206
+eensklaps     0.00488386  er             0.00615162  charis              0.00702038
+beiden        0.00479278  zich           0.006102    bertie              0.0069676
+hoewel        0.004605    hem            0.00600389  bébert              0.00694904
+gevoelde      0.00449577  voor           0.00553363  zoo                 0.00667777
+meê           0.00441087  om             0.00550206  je                  0.00652671
+heusch        0.00426837  je             0.00542989  eline               0.00652128
+zie_je        0.00422301  dan            0.00490099  aan                 0.00643778
+meende        0.00413396  wat            0.00428865  ysabele             0.00624643
+zagen         0.00404502  uit            0.00417024  om                  0.00588933
+glimlachte    0.00403984  nu             0.00412288  den                 0.00586937
+ezel          0.00392928  door           0.00403379  zich                0.00583107
+deur          0.00379543  ze             0.00396726  er                  0.00574971
+riepen        0.00370086  over           0.00361316  hem                 0.00574334
+ik_ben        0.0035426   naar           0.00347107  cornélie            0.00568158
+heb_je        0.00352511  ook            0.0034316   voor                0.00522802
+
+   ID  Title                                                 Group L    Corpus L    Specific L
+-----  --------------------------------------------------  ---------  ----------  ------------
+19563  Eline Vere: Een Haagsche roman                           0.01         0.9          0.09
+29814  De komedianten                                           0.01         0.9          0.09
+44084  Langs lijnen van geleidelijkheid                         0.01         0.9          0.09
+14850  Het zwevende schaakbord                                  0.01         0.9          0.09
+17659  Noodlot                                                  0.01         0.9          0.09
+29837  De verliefde ezel                                        0.01         0.9          0.09
+12003  Extaze: Een Boek van Geluk                               0.01         0.9          0.09
+27487  Jan en Florence                                          0.01         0.9          0.09
+27241  Reis-impressies                                          0.01         0.9          0.09
+17431  Korte Arabesken: Bébert le Boucher en André le Pêc       0.01         0.9          0.09
+
+INFO:weighwords.parsimonious:Gathering term probabilities
+INFO:weighwords.parsimonious:Gathering term probabilities
+INFO:weighwords.significant_words:Lambdas initialized to: Corpus=0.9000, Group=0.0100, Specific=0.0900
+SWLM for Eeden, Frederik van:
+Group term         Group p  Corpus term      Corpus p  Specific terms      Specific p
+--------------  ----------  -------------  ----------  ----------------  ------------
+johannes        0.148163    en             0.0408724   en                  0.043223
+doch            0.0558682   de             0.0386994   de                  0.0371123
+windekind       0.0451451   het            0.0249583   het                 0.0265302
+pluizer         0.0276067   van            0.0224864   in                  0.0211232
+wistik          0.0152649   een            0.0209144   van                 0.0192053
+robinetta       0.0129914   in             0.0190694   hij                 0.0180091
+duinen          0.0127336   zij            0.0183579   een                 0.0156455
+het_hoofd       0.0126943   hij            0.0151225   johannes            0.0133969
+weer            0.0117606   dat            0.0142079   zijn                0.0129183
+de_zon          0.0113256   haar           0.0119525   niet                0.0119515
+ik_wil          0.010629    zijn           0.0117022   ik                  0.0117314
+een_mensch      0.0103931   met            0.0114992   dat                 0.0116828
+staarde         0.0102466   die            0.0113695   is                  0.0113851
+presto          0.0100683   niet           0.0112894   die                 0.0107161
+ge              0.00970268  was            0.0107774   als                 0.00969913
+boekje          0.00864737  ik             0.00989671  den                 0.00890377
+sleuteltje      0.00826171  op             0.00981326  met                 0.00834741
+zijn_vader      0.00779484  maar           0.00841604  maar                0.00778657
+vroeg_johannes  0.00747005  als            0.00832695  hem                 0.0072381
+ik_zal          0.00728731  te             0.00827846  op                  0.0072281
+de_klok         0.00704503  is             0.00712595  was                 0.00709729
+het_bosch       0.00682048  aan            0.00695341  mijn                0.00691306
+zeide_pluizer   0.0064957   den            0.00635122  zij                 0.00637927
+een_groot       0.00617091  had            0.00630724  wat                 0.00614392
+dit_is          0.00600425  zoo            0.00618996  mij                 0.00605814
+het_konijntje   0.00584613  er             0.00615162  te                  0.00586816
+zei_pluizer     0.00552134  zich           0.006102    dan                 0.00582797
+docter_cijfer   0.00552134  hem            0.00600389  aan                 0.0058147
+dieren          0.00529556  voor           0.00553363  zoo                 0.00537227
+neer            0.00491337  om             0.00550206  der                 0.00525194
+roodborstje     0.00487177  je             0.00542989  door                0.00519202
+docter          0.00487177  dan            0.00490099  leeven              0.0050226
+ben_ik          0.0048507   wat            0.00428865  voor                0.00499988
+den_nacht       0.0045621   uit            0.00417024  waar                0.0047642
+muisje          0.00444549  nu             0.00412288  er                  0.00465353
+simon           0.0042222   door           0.00403379  om                  0.00424319
+weet_ik         0.00408836  ze             0.00396726  gij                 0.0041842
+den_dood        0.00393796  over           0.00361316  zich                0.00414276
+riep_johannes   0.00389742  naar           0.00347107  windekind           0.00401328
+glimworm        0.00389742  ook            0.0034316   tot                 0.00390457
+
+   ID  Title                                  Group L    Corpus L    Specific L
+-----  -----------------------------------  ---------  ----------  ------------
+10819  De kleine Johannes                        0.01         0.9          0.09
+29075  Dante en Beatrice, en andere verzen       0.01         0.9          0.09
+
+INFO:weighwords.parsimonious:Gathering term probabilities
+WARNING:weighwords.significant_words:Cannot calculate `p_specific` for a single document, using `p_corpus` as replacement.
+INFO:weighwords.significant_words:Lambdas initialized to: Corpus=0.9000, Group=0.0100, Specific=0.0900
+SWLM for Gorter, Herman:
+Group term                     Group p  Corpus term      Corpus p  Specific terms      Specific p
+--------------------------  ----------  -------------  ----------  ----------------  ------------
+zooals_een                  0.0570846   en             0.0408724   en                  0.0408724
+als_een                     0.0416242   de             0.0386994   de                  0.0386994
+arbeiders                   0.0316635   het            0.0249583   het                 0.0249583
+kapitaal                    0.0308092   van            0.0224864   van                 0.0224864
+maria                       0.0229261   een            0.0209144   een                 0.0209144
+arbeid                      0.0218485   in             0.0190694   in                  0.0190694
+wij_willen                  0.0214067   zij            0.0183579   zij                 0.0183579
+machine                     0.0198825   hij            0.0151225   hij                 0.0151225
+leek                        0.0149362   dat            0.0142079   dat                 0.0142079
+kameraden                   0.0147906   haar           0.0119525   haar                0.0119525
+diep_in                     0.0142712   zijn           0.0117022   zijn                0.0117022
+zijn_hart                   0.0142712   met            0.0114992   met                 0.0114992
+zee                         0.0142034   die            0.0113695   die                 0.0113695
+het_socialisme              0.0130819   niet           0.0112894   niet                0.0112894
+aldoor                      0.0120771   was            0.0107774   was                 0.0107774
+fabriek                     0.0114461   ik             0.00989671  ik                  0.00989671
+donkre                      0.0114461   op             0.00981326  op                  0.00981326
+machines                    0.0107034   maar           0.00841604  maar                0.00841604
+kindren                     0.0103684   als            0.00832695  als                 0.00832695
+weefsel                     0.0100335   te             0.00827846  te                  0.00827846
+vrijheid                    0.0100287   is             0.00712595  is                  0.00712595
+der_arbeiders               0.0095141   aan            0.00695341  aan                 0.00695341
+waarde                      0.00935885  den            0.00635122  den                 0.00635122
+zal_ik                      0.009252    had            0.00630724  had                 0.00630724
+willem                      0.00917438  zoo            0.00618996  zoo                 0.00618996
+één                         0.00874242  er             0.00615162  er                  0.00615162
+stil                        0.00826609  zich           0.006102    zich                0.006102
+arbeider                    0.00810155  hem            0.00600389  hem                 0.00600389
+bloem                       0.00794148  voor           0.00553363  voor                0.00553363
+onzeker                     0.00732005  om             0.00550206  om                  0.00550206
+staal                       0.00732005  je             0.00542989  je                  0.00542989
+altijd_meer                 0.00713558  dan            0.00490099  dan                 0.00490099
+wij_vragen_den_achturendag  0.00713558  wat            0.00428865  wat                 0.00428865
+zaal_vol                    0.00713558  uit            0.00417024  uit                 0.00417024
+wetenschap                  0.00713078  nu             0.00412288  nu                  0.00412288
+werktuig                    0.00702393  door           0.00403379  door                0.00403379
+holst                       0.00691229  ze             0.00396726  ze                  0.00396726
+schip                       0.00665019  over           0.00361316  over                0.00361316
+elkaar                      0.00645609  naar           0.00347107  naar                0.00347107
+ik_kan                      0.00601914  ook            0.0034316   ook                 0.0034316
+
+   ID  Title                    Group L    Corpus L    Specific L
+-----  ---------------------  ---------  ----------  ------------
+16830  Een klein heldendicht       0.01         0.9          0.09
+
+INFO:weighwords.parsimonious:Gathering term probabilities
+WARNING:weighwords.significant_words:Cannot calculate `p_specific` for a single document, using `p_corpus` as replacement.
+INFO:weighwords.significant_words:Lambdas initialized to: Corpus=0.9000, Group=0.0100, Specific=0.0900
+SWLM for Hildebrand:
+Group term          Group p  Corpus term      Corpus p  Specific terms      Specific p
+---------------  ----------  -------------  ----------  ----------------  ------------
+mijnheer         0.0160537   en             0.0408724   en                  0.0408724
+gerrit           0.0129404   de             0.0386994   de                  0.0386994
+pieter           0.0124754   het            0.0249583   het                 0.0249583
+van_der_hoogen   0.010635    van            0.0224864   van                 0.0224864
+hildebrand       0.00871055  een            0.0209144   een                 0.0209144
+henriette        0.00819836  in             0.0190694   in                  0.0190694
+teun             0.00688857  zij            0.0183579   zij                 0.0183579
+juffrouw         0.00672735  hij            0.0151225   hij                 0.0151225
+as               0.00671934  dat            0.0142079   dat                 0.0142079
+heer_bruis       0.00652601  haar           0.0119525   haar                0.0119525
+mee              0.00634757  zijn           0.0117022   zijn                0.0117022
+meheer           0.00628431  met            0.0114992   met                 0.0114992
+koosje           0.00543834  die            0.0113695   die                 0.0113695
+heer_kegge       0.00531749  niet           0.0112894   niet                0.0112894
+kegge            0.00519664  was            0.0107774   was                 0.0107774
+keesje           0.00495493  ik             0.00989671  ik                  0.00989671
+weer             0.00488239  op             0.00981326  op                  0.00981326
+vernooy          0.00471323  maar           0.00841604  maar                0.00841604
+indien           0.0047084   als            0.00832695  als                 0.00832695
+ie               0.0045624   te             0.00827846  te                  0.00827846
+saartje          0.00447152  is             0.00712595  is                  0.00712595
+witse            0.00447152  aan            0.00695341  aan                 0.00695341
+kees             0.00412738  den            0.00635122  den                 0.00635122
+evenwel          0.00393973  had            0.00630724  had                 0.00630724
+uwe              0.00389512  zoo            0.00618996  zoo                 0.00618996
+menheer          0.00388568  er             0.00615162  er                  0.00615162
+an               0.0038753   zich           0.006102    zich                0.006102
+amelie           0.00386726  hem            0.00600389  hem                 0.00600389
+zel              0.00374641  voor           0.00553363  voor                0.00553363
+hetwelk          0.00339306  om             0.00550206  om                  0.00550206
+juffrouw_noiret  0.00338386  je             0.00542989  je                  0.00542989
+klaartje         0.00338386  dan            0.00490099  dan                 0.00490099
+genoegens        0.00327221  wat            0.00428865  wat                 0.00428865
+mot              0.00317898  uit            0.00417024  uit                 0.00417024
+zen              0.00315136  nu             0.00412288  nu                  0.00412288
+zeide_hij        0.00314215  door           0.00403379  door                0.00403379
+student          0.00306733  ze             0.00396726  ze                  0.00396726
+daarop           0.00305177  over           0.00361316  over                0.00361316
+weetje           0.0030213   naar           0.00347107  naar                0.00347107
+humoristen       0.00290045  ook            0.0034316   ook                 0.0034316
+
+   ID  Title             Group L    Corpus L    Specific L
+-----  --------------  ---------  ----------  ------------
+15975  Camera Obscura       0.01         0.9          0.09
+
+INFO:weighwords.parsimonious:Gathering term probabilities
+WARNING:weighwords.significant_words:Cannot calculate `p_specific` for a single document, using `p_corpus` as replacement.
+INFO:weighwords.significant_words:Lambdas initialized to: Corpus=0.9000, Group=0.0100, Specific=0.0900
+SWLM for Verwey, Albert:
+Group term          Group p  Corpus term      Corpus p  Specific terms      Specific p
+---------------  ----------  -------------  ----------  ----------------  ------------
+oorlog           0.0649637   en             0.0408724   en                  0.0408724
+duitschland      0.032629    de             0.0386994   de                  0.0386994
+duitsche         0.0280111   het            0.0249583   het                 0.0249583
+staten           0.0201255   van            0.0224864   van                 0.0224864
+volken           0.0193744   een            0.0209144   een                 0.0209144
+volk             0.0191306   in             0.0190694   in                  0.0190694
+engeland         0.0177302   zij            0.0183579   zij                 0.0183579
+belgië           0.0154265   hij            0.0151225   hij                 0.0151225
+menschheid       0.0146145   dat            0.0142079   dat                 0.0142079
+regeering        0.0133155   haar           0.0119525   haar                0.0119525
+onzijdigheid     0.0121484   zijn           0.0117022   zijn                0.0117022
+frankrijk        0.0108391   met            0.0114992   met                 0.0114992
+vrede            0.0102402   die            0.0113695   die                 0.0113695
+onze             0.00951584  niet           0.0112894   niet                0.0112894
+eenheid          0.00911376  was            0.0107774   was                 0.0107774
+gemeenschap      0.00892094  ik             0.00989671  ik                  0.00989671
+duitschers       0.00883977  op             0.00981326  op                  0.00981326
+europa           0.00879905  maar           0.00841604  maar                0.00841604
+zichzelf         0.00863671  als            0.00832695  als                 0.00832695
+macht            0.00839291  te             0.00827846  te                  0.00827846
+hun_eigen        0.00831203  is             0.00712595  is                  0.00712595
+vaderlandsche    0.00816991  aan            0.00695341  aan                 0.00695341
+grenzen          0.00730724  den            0.00635122  den                 0.00635122
+omstandigheden   0.00701275  had            0.00630724  had                 0.00630724
+rusland          0.00625175  zoo            0.00618996  zoo                 0.00618996
+menschelijkheid  0.00625175  er             0.00615162  er                  0.00615162
+werking          0.00625175  zich           0.006102    zich                0.006102
+geestelijke      0.00622128  hem            0.00600389  hem                 0.00600389
+leger            0.00599799  voor           0.00553363  voor                0.00553363
+nederland        0.00577471  om             0.00550206  om                  0.00550206
+volkenrecht      0.00575448  je             0.00542989  je                  0.00542989
+pruisen          0.00564284  dan            0.00490099  dan                 0.00490099
+poëzie           0.00542952  wat            0.00428865  wat                 0.00428865
+stoffelijke      0.00541955  uit            0.00417024  uit                 0.00417024
+hun_regeering    0.0051151   nu             0.00412288  nu                  0.00412288
+0.50             0.0051151   door           0.00403379  door                0.00403379
+beteekenis       0.00502368  ze             0.00396726  ze                  0.00396726
+nederlanders     0.00500345  over           0.00361316  over                0.00361316
+regeeringen      0.00500345  naar           0.00347107  naar                0.00347107
+beschaving       0.00497298  ook            0.0034316   ook                 0.0034316
+
+   ID  Title                   Group L    Corpus L    Specific L
+-----  --------------------  ---------  ----------  ------------
+45826  Holland en de oorlog       0.01         0.9          0.09
+
+INFO:weighwords.parsimonious:Gathering term probabilities
+INFO:weighwords.parsimonious:Gathering term probabilities
+INFO:weighwords.significant_words:Lambdas initialized to: Corpus=0.9000, Group=0.0100, Specific=0.0900
+SWLM for Deyssel, Lodewijk van:
+Group term          Group p  Corpus term      Corpus p  Specific terms      Specific p
+---------------  ----------  -------------  ----------  ----------------  ------------
+jozef            0.107387    en             0.0408724   de                  0.0375233
+mathilde         0.0889548   de             0.0386994   en                  0.0312916
+haar_vader       0.0209331   het            0.0249583   van                 0.0267801
+felix            0.0173041   van            0.0224864   het                 0.0235888
+haar_hoofd       0.0164435   een            0.0209144   in                  0.0225054
+zeî              0.0155494   in             0.0190694   een                 0.0192637
+wech             0.0144972   zij            0.0183579   zij                 0.0180417
+jans             0.0124698   hij            0.0151225   haar                0.0169855
+mathildes        0.0101714   dat            0.0142079   hij                 0.0165551
+te-rug           0.00888538  haar           0.0119525   dat                 0.0154664
+jozefs           0.0081839   zijn           0.0117022   zijn                0.0148728
+mekaâr           0.00759934  met            0.0114992   die                 0.0117611
+zijn_vrouw       0.00702509  die            0.0113695   was                 0.0115121
+nee              0.00624262  niet           0.0112894   met                 0.0111801
+de_stuwen        0.00619638  was            0.0107774   te                  0.0104646
+van_deyssel      0.00609174  ik             0.00989671  op                  0.00889198
+amsterdam        0.00598587  op             0.00981326  niet                0.00879551
+erg              0.00589269  maar           0.00841604  als                 0.00856807
+zij_voelde       0.00561182  als            0.00832695  aan                 0.00779475
+den_dag          0.00559075  te             0.00827846  had                 0.00766941
+zich_zelf        0.00553122  is             0.00712595  hem                 0.00722635
+te_kunnen        0.00546404  aan            0.00695341  dekker              0.006863
+wezenlijk        0.00531075  den            0.00635122  zich                0.00677883
+vóor             0.00523393  had            0.00630724  om                  0.00650799
+de_hoogte        0.00518144  zoo            0.00618996  er                  0.00640898
+voortdurend      0.00510947  er             0.00615162  maar                0.00637653
+de_deur          0.00481396  zich           0.006102    den                 0.00627377
+leî              0.00479343  hem            0.00600389  voor                0.00590156
+andwoordde       0.00479343  voor           0.00553363  zoo                 0.00554943
+háar             0.00469136  om             0.00550206  door                0.00538886
+den_gang         0.00432578  je             0.00542989  is                  0.00522068
+haar_hart        0.00418569  dan            0.00490099  dan                 0.00491431
+mooye            0.00412278  wat            0.00428865  nu                  0.00480792
+de_trap          0.00393676  uit            0.00417024  over                0.00442767
+zaken            0.00386113  nu             0.00412288  multatuli           0.00440461
+in_de_rondte     0.0036243   door           0.00403379  zoû                 0.00431367
+de_vloer         0.0036243   ze             0.00396726  uit                 0.00406111
+jufvrouw         0.00350739  over           0.00361316  wat                 0.00390976
+zij_voelde_zich  0.00339047  naar           0.00347107  naar                0.00379574
+het_zaaltje      0.00327356  ook            0.0034316   of                  0.00375547
+
+   ID  Title                                                 Group L    Corpus L    Specific L
+-----  --------------------------------------------------  ---------  ----------  ------------
+10820  Een liefde                                               0.01         0.9          0.09
+51869  Multatuli: Multatuli en Mr. J van Lennep; Multatul       0.01         0.9          0.09

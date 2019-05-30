@@ -1,0 +1,261 @@
+
+SWLM for Carroll, Lewis:
+Group term          Group p  Corpus term      Corpus p  Specific terms      Specific p
+---------------  ----------  -------------  ----------  ----------------  ------------
+alice            0.088327    the            0.0682497   the                 0.0570674
+bruno            0.0581805   and            0.0384949   and                 0.0337011
+sylvie           0.0452364   of             0.0379954   to                  0.0285874
+said             0.0240202   to             0.026542    of                  0.0231311
+arthur           0.0203199   in             0.0192346   it                  0.0192744
+you_know         0.0198783   that           0.0144809   al-ice              0.0174244
+replied          0.0185037   it             0.0136294   in                  0.0150072
+professor        0.01328     was            0.0132935   that                0.0142797
+lady_muriel      0.0114187   he             0.0117365   you                 0.0135996
+queen            0.0112813   his            0.00980847  she                 0.0117987
+i                0.00980582  with           0.0088717   was                 0.00996704
+oo               0.00904934  as             0.00812825  said                0.00985424
+went_on          0.00797881  is             0.00773502  is                  0.00966506
+tone             0.00794639  for            0.00755616  are                 0.00963293
+song             0.00715781  you            0.00699402  as                  0.00941411
+this_time        0.00663446  but            0.00693841  he                  0.00847045
+illustration     0.00658284  had            0.00685612  all                 0.00841422
+sure             0.00635421  at             0.00542616  alice               0.00813151
+children         0.0062807   this           0.0051451   with                0.00754642
+her_head         0.006164    all            0.00509831  but                 0.00688625
+his_head         0.00599679  not            0.00487943  for                 0.00660506
+exclaimed        0.00591339  which          0.0047853   no                  0.00598679
+ca               0.00581301  they           0.00476351  so                  0.00569655
+my_lady          0.00552601  by             0.00470809  on                  0.00541413
+mouse            0.00547405  from           0.0046087   one                 0.00522637
+cat              0.00543403  were           0.00457826  be                  0.00502223
+lessons          0.00522935  on             0.00447962  they                0.00497585
+a                0.00517479  have           0.00443547  not                 0.00493234
+hastily          0.00495675  my             0.0043466   her                 0.00493212
+sing             0.00494911  we             0.00433684  bruno               0.00490154
+till             0.00494908  she            0.00418559  what                0.00468575
+by_this_time     0.00474405  one            0.00416492  do                  0.00456519
+his_hand         0.00456525  be             0.00406798  at                  0.0045572
+conclusion       0.00452335  there          0.00405821  if                  0.00447602
+please           0.00452054  her            0.00398775  this                0.00446727
+her_hands        0.00376924  him            0.0038863   univ                0.00434627
+earl             0.00373631  said           0.0036879   had                 0.00428765
+gardener         0.00357867  so             0.00366573  have                0.00412515
+added            0.0035235   are            0.0035825   we                  0.00412379
+other_professor  0.00351028  me             0.00329673  some                0.00404828
+
+   ID  Title                                                 Group L    Corpus L    Specific L
+-----  --------------------------------------------------  ---------  ----------  ------------
+48795  Sylvie and Bruno Concluded (Illustrated)                 0.01         0.9          0.09
+48630  Sylvie and Bruno (Illustrated)                           0.01         0.9          0.09
+  620  Sylvie and Bruno                                         0.01         0.9          0.09
+28696  Symbolic Logic                                           0.01         0.9          0.09
+   12  Through the Looking-Glass                                0.01         0.9          0.09
+29042  A Tangled Tale                                           0.01         0.9          0.09
+28885  Alice's Adventures in Wonderland                         0.01         0.9          0.09
+       Illustrated by Ar
+   11  Alice's Adventures in Wonderland                         0.01         0.9          0.09
+19551  Alice in Wonderland, Retold in Words of One Syllab       0.01         0.9          0.09
+33582  Rhyme? And Reason?                                       0.01         0.9          0.09
+19002  Alice's Adventures Under Ground                          0.01         0.9          0.09
+       Being a facsimile
+35688  Alice in Wonderland                                      0.01         0.9          0.09
+       A Dramatization of Lewis Carr
+  651  Phantasmagoria and Other Poems                           0.01         0.9          0.09
+ 4763  The Game of Logic                                        0.01         0.9          0.09
+55040  The Nursery "Alice"                                      0.01         0.9          0.09
+
+
+
+SWLM for Melville, Herman:
+Group term       Group p  Corpus term      Corpus p  Specific terms      Specific p
+------------  ----------  -------------  ----------  ----------------  ------------
+ship          0.0185934   the            0.0682497   the                 0.0683732
+whale         0.0142454   and            0.0384949   of                  0.0352662
+thus          0.00971511  of             0.0379954   and                 0.0325642
+captain       0.00895965  to             0.026542    to                  0.0241592
+thee          0.00866355  in             0.0192346   in                  0.0212971
+sailors       0.00864701  that           0.0144809   that                0.0119698
+sea           0.00767938  it             0.0136294   it                  0.0103102
+sailor        0.00678741  was            0.0132935   was                 0.0102451
+could_not     0.00633915  he             0.0117365   his                 0.0100818
+thy           0.00621349  his            0.00980847  with                0.00907257
+boat          0.00585835  with           0.0088717   but                 0.00870423
+would_have    0.00574944  as             0.00812825  he                  0.00862078
+crew          0.00567348  is             0.00773502  as                  0.00854064
+natives       0.00558642  for            0.00755616  for                 0.00780945
+no_more       0.00542225  you            0.00699402  is                  0.00701927
+valley        0.00540232  but            0.00693841  by                  0.00609347
+on_board      0.00538507  had            0.00685612  all                 0.00570117
+whales        0.00486261  at             0.00542616  from                0.00557429
+concerning    0.00470661  this           0.0051451   this                0.00550919
+my_lord       0.00467216  all            0.00509831  on                  0.00526856
+toward        0.00451372  not            0.00487943  at                  0.005195
+island        0.00447223  which          0.0047853   not                 0.00515401
+thou          0.00436947  they           0.00476351  they                0.00471616
+sail          0.00418958  by             0.00470809  you                 0.00457252
+pierre        0.00401869  from           0.0046087   which               0.00448151
+till          0.00391884  were           0.00457826  were                0.00418724
+man-of-war    0.00372548  on             0.00447962  one                 0.00416273
+an_old        0.0037082   have           0.00443547  their               0.0040447
+islanders     0.00354548  my             0.0043466   so                  0.00403154
+deck          0.00349706  we             0.00433684  had                 0.00400003
+must_have     0.00337289  she            0.00418559  we                  0.0039479
+ye            0.00331077  one            0.00416492  him                 0.00388993
+according_to  0.0032893   be             0.00406798  my                  0.00382759
+aloft         0.00324421  there          0.00405821  be                  0.00362864
+ashore        0.00323601  her            0.00398775  pierre              0.00361714
+on_deck       0.00322516  him            0.0038863   mosby               0.00343041
+isle          0.00315005  said           0.0036879   now                 0.0033264
+frigate       0.00314234  so             0.00366573  me                  0.00327998
+forecastle    0.00296524  are            0.0035825   are                 0.00321466
+might_have    0.00293105  me             0.00329673  there               0.00320056
+
+   ID  Title                                          Group L    Corpus L    Specific L
+-----  -------------------------------------------  ---------  ----------  ------------
+ 2701  Moby Dick; Or, The Whale                          0.01         0.9          0.09
+34970  Pierre; or The Ambiguities                        0.01         0.9          0.09
+10712  White Jacket; Or, The World on a Man-of-War       0.01         0.9          0.09
+ 8118  Redburn. His First Voyage                         0.01         0.9          0.09
+       Being the Sailor Boy Co
+ 1900  Typee: A Romance of the South Seas                0.01         0.9          0.09
+13721  Mardi: and A Voyage Thither, Vol. II              0.01         0.9          0.09
+ 4045  Omoo: Adventures in the South Seas                0.01         0.9          0.09
+28656  Typee                                             0.01         0.9          0.09
+13720  Mardi: and A Voyage Thither, Vol. I               0.01         0.9          0.09
+21816  The Confidence-Man: His Masquerade                0.01         0.9          0.09
+15859  The Piazza Tales                                  0.01         0.9          0.09
+15422  Israel Potter: His Fifty Years of Exile           0.01         0.9          0.09
+53861  The Apple-Tree Table, and Other Sketches          0.01         0.9          0.09
+12384  Battle-Pieces and Aspects of the War              0.01         0.9          0.09
+12841  John Marr and Other Poems                         0.01         0.9          0.09
+
+
+SWLM for Doyle, Arthur Conan:
+Group term       Group p  Corpus term      Corpus p  Specific terms      Specific p
+------------  ----------  -------------  ----------  ----------------  ------------
+been          0.0719243   the            0.0682497   the                 0.0631433
+have          0.0320767   and            0.0384949   and                 0.0329673
+own           0.0315479   of             0.0379954   of                  0.0316069
+which         0.0205554   to             0.026542    to                  0.0255073
+your          0.015661    in             0.0192346   in                  0.0175558
+cried         0.011688    that           0.0144809   that                0.0162367
+upon          0.0105582   it             0.0136294   it                  0.0150289
+front         0.0103001   was            0.0132935   was                 0.0147494
+answered      0.0102076   he             0.0117365   he                  0.0134451
+may           0.00961522  his            0.00980847  his                 0.0128485
+father        0.00958353  with           0.0088717   you                 0.0110748
+horse         0.00810123  as             0.00812825  with                0.00974971
+enemy         0.00773574  is             0.00773502  had                 0.00924929
+force         0.0076901   for            0.00755616  is                  0.00895672
+my            0.00696704  you            0.00699402  as                  0.0087621
+save          0.00606535  but            0.00693841  for                 0.00788589
+major         0.00602816  had            0.00685612  my                  0.0077579
+colonel       0.00572463  at             0.00542616  which               0.00769228
+an_instant    0.00536337  this           0.0051451   have                0.00767807
+should        0.00517565  all            0.00509831  at                  0.00667426
+guns          0.00513547  not            0.00487943  but                 0.00662777
+attack        0.00475641  which          0.0047853   not                 0.00579041
+position      0.00471951  they           0.00476351  be                  0.00564743
+wounded       0.00459643  by             0.00470809  from                0.00545027
+shall         0.00455842  from           0.0046087   we                  0.00516219
+seen          0.00428147  were           0.00457826  this                0.004827
+john          0.00419972  on             0.00447962  upon                0.0047512
+amid          0.00417529  have           0.00443547  there               0.00472187
+however       0.00408204  my             0.0043466   were                0.00468737
+friend        0.00403632  we             0.00433684  him                 0.00465432
+holmes        0.00392688  she            0.00418559  me                  0.00461101
+horses        0.00392265  one            0.00416492  on                  0.00455633
+line          0.00387235  be             0.00406798  one                 0.00432018
+once_more     0.00359576  there          0.00405821  by                  0.0041259
+hath          0.00359567  her            0.00398775  so                  0.00404155
+rode          0.00355367  him            0.0038863   all                 0.00404022
+prisoners     0.00325148  said           0.0036879   they                0.00401869
+watson        0.00315849  so             0.00366573  said                0.00390342
+road          0.0031554   are            0.0035825   her                 0.00370111
+column        0.00315391  me             0.00329673  would               0.00337271
+
+   ID  Title                                           Group L    Corpus L    Specific L
+-----  --------------------------------------------  ---------  ----------  ------------
+ 3069  The Great Boer War                                 0.01         0.9          0.09
+ 9504  Micah Clarke                                       0.01         0.9          0.09
+       His Statement as made to his three g
+  903  The White Company                                  0.01         0.9          0.09
+13152  The Firm of Girdlestone                            0.01         0.9          0.09
+ 2845  Sir Nigel                                          0.01         0.9          0.09
+11413  The Refugees                                       0.01         0.9          0.09
+       A Tale of Two Continents
+  221  The Return of Sherlock Holmes                      0.01         0.9          0.09
+48320  Adventures of Sherlock Holmes                      0.01         0.9          0.09
+       Illustrated
+ 1661  The Adventures of Sherlock Holmes                  0.01         0.9          0.09
+54109  Round the Fire Stories                             0.01         0.9          0.09
+ 5148  Rodney Stone                                       0.01         0.9          0.09
+  834  The Memoirs of Sherlock Holmes                     0.01         0.9          0.09
+39718  The Wanderings of a Spiritualist                   0.01         0.9          0.09
+  294  The Captain of the Polestar, and Other Tales       0.01         0.9          0.09
+  290  The Stark Munro Letters                            0.01         0.9          0.09
+       Being series of twelve le
+
+
+SWLM for Wells, H. G. (Herbert George):
+Group term       Group p  Corpus term      Corpus p  Specific terms      Specific p
+------------  ----------  -------------  ----------  ----------------  ------------
+people        0.0152016   the            0.0682497   the                 0.0572891
+world         0.0131581   and            0.0384949   and                 0.0443563
+ii            0.0108951   of             0.0379954   of                  0.0406371
+history       0.00758883  to             0.026542    to                  0.0269417
+ideas         0.0070059   in             0.0192346   in                  0.0188638
+political     0.00690973  that           0.0144809   that                0.0152227
+new           0.00677009  it             0.0136294   it                  0.0140187
+europe        0.00635563  was            0.0132935   was                 0.0139598
+social        0.00628662  he             0.0117365   he                  0.0134824
+rome          0.0062316   his            0.00980847  kipps               0.00984406
+empire        0.00617219  with           0.0088717   with                0.00837374
+will_be       0.00598687  as             0.00812825  his                 0.00792134
+became        0.00584634  is             0.00773502  for                 0.0071937
+things        0.00565851  for            0.00755616  is                  0.00714036
+presently     0.00553727  you            0.00699402  she                 0.00713709
+had_been      0.00500493  but            0.00693841  had                 0.00704389
+germany       0.00499486  had            0.00685612  as                  0.00671728
+quality       0.00495042  at             0.00542616  mr._britling        0.00628115
+as_though     0.00483906  this           0.0051451   her                 0.00613485
+china         0.00461016  all            0.00509831  but                 0.00602207
+development   0.00417421  not            0.00487943  you                 0.005549
+go_on         0.00402193  which          0.0047853   they                0.00530545
+italy         0.0039498   they           0.00476351  bert                0.00515652
+later         0.00394877  by             0.00470809  all                 0.0050765
+mankind       0.00392728  from           0.0046087   this                0.00496204
+tradition     0.00391859  were           0.00457826  lady_harman         0.00484831
+for_moment    0.00382893  on             0.00447962  at                  0.00464061
+peoples       0.00369514  have           0.00443547  mr._brumley         0.0044694
+women         0.00368953  my             0.0043466   there               0.00431291
+egypt         0.00368195  we             0.00433684  we                  0.00419758
+system        0.0036355   she            0.00418559  said                0.00412358
+greek         0.00353914  one            0.00416492  were                0.00411745
+science       0.00349757  be             0.00406798  one                 0.00405843
+modern        0.00348317  there          0.00405821  by                  0.00404321
+education     0.00344029  her            0.00398775  not                 0.00399246
+india         0.00337257  him            0.0038863   benham              0.0039395
+intellectual  0.00328218  said           0.0036879   trafford            0.00393317
+community     0.00325006  so             0.00366573  on                  0.00373449
+wanted        0.00310397  are            0.0035825   him                 0.00364114
+talked        0.0030761   me             0.00329673  or                  0.00357855
+
+   ID  Title                                                 Group L    Corpus L    Specific L
+-----  --------------------------------------------------  ---------  ----------  ------------
+45368  The Outline of History: Being a Plain History of L       0.01         0.9          0.09
+11870  The Country of the Blind, and Other Stories              0.01         0.9          0.09
+35338  Marriage                                                 0.01         0.9          0.09
+ 1047  The New Machiavelli                                      0.01         0.9          0.09
+14060  Mr. Britling Sees It Through                             0.01         0.9          0.09
+  718  Tono-Bungay                                              0.01         0.9          0.09
+30855  The Wife of Sir Isaac Harman                             0.01         0.9          0.09
+35461  A Short History of the World                             0.01         0.9          0.09
+ 1138  The Research Magnificent                                 0.01         0.9          0.09
+39162  Kipps: The Story of a Simple Soul                        0.01         0.9          0.09
+ 7058  Mankind in the Making                                    0.01         0.9          0.09
+30340  The Passionate Friends                                   0.01         0.9          0.09
+11502  An Englishman Looks at the World                         0.01         0.9          0.09
+       Being a Series o
+  780  The War in the Air                                       0.01         0.9          0.09
+  524  Ann Veronica: A Modern Love Story                        0.01         0.9          0.09
