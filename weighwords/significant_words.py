@@ -356,11 +356,18 @@ class SignificantWordsLM(ParsimoniousLM):
 
         return group_tf, p_group
 
-    @staticmethod
     def _specific_model(
+            self,
             document_term_probabilities: Sequence[np.ndarray]
     ) -> np.ndarray:
         """Create the fixed specific model."""
+        if len(document_term_probabilities) < 2:
+            logger.warning(
+                'Cannot calculate `p_specific` for a single document, '
+                'using `p_corpus` as replacement.'
+            )
+            return self.p_corpus
+
         # complement events: 1 - p
         complements = [
             np.log1p(-np.exp(p_doc))
