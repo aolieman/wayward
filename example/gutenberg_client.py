@@ -21,16 +21,24 @@ from spacy.tokenizer import Tokenizer
 from tabulate import tabulate
 
 from weighwords import ParsimoniousLM, SignificantWordsLM
+from weighwords.specific_term_estimators import me_up_to_40_docs
 
 authors = [
-    'Couperus, Louis',
-    'Eeden, Frederik van',
-    'Gorter, Herman',
-    'Hildebrand',
-    'Verwey, Albert',
-    'Deyssel, Lodewijk van',
+    'Carroll, Lewis',
+    'Melville, Herman',
+    'Doyle, Arthur Conan',
+    'Wells, H. G. (Herbert George)',
 ]
-language = ('nl', 'dutch')
+# authors = [
+#     'Couperus, Louis',
+#     'Eeden, Frederik van',
+#     'Gorter, Herman',
+#     'Hildebrand',
+#     'Verwey, Albert',
+#     'Deyssel, Lodewijk van',
+# ]
+language = ('en', 'english')
+# language = ('nl', 'dutch')
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
@@ -209,6 +217,7 @@ if __name__ == '__main__':
             if len(docs) >= 15:
                 break
 
+        print(f'Selected {len(docs)} works by {author}')
         libraries[author] = docs
 
     corpus = itertools.chain.from_iterable(
@@ -224,7 +233,8 @@ if __name__ == '__main__':
                 doc_group,
                 max_iter=100,
                 fix_lambdas=True,
-                parsimonize_specific=False
+                parsimonize_specific=False,
+                specific_estimator=me_up_to_40_docs
             )
         )
         corpus_terms, corpus_ps = zip(*nlargest(
