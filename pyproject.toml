@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "wayward"
+version = "0.3.0"
+repository = "https://github.com/aolieman/weighwords"
+description = "Wayward is a Python package that helps to identify characteristic terms from single documents or groups of documents."
+authors = ["Alex Olieman <alex@olieman.net>"]
+license = "LGPL-3.0"
+keywords = [
+    "natural language processing",
+    "language modeling",
+    "parsimonious language model",
+    "significant words language model",
+    "word cloud"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: Linguistic"
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+numpy = "^1.15"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.5"
+mypy = "^0.701"
+numpy-stubs = {git = "https://github.com/numpy/numpy-stubs.git"}
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
