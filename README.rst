@@ -51,21 +51,21 @@ Usage
 
 The ``ParsimoniousLM`` is initialized with all document tokens as a
 background corpus, and subsequently takes a single document's tokens
-as input. Its ``top`` method returns the top terms and their log-probabilities:
+as input. Its ``top`` method returns the top terms and their probabilities:
 
 >>> from wayward import ParsimoniousLM
 >>> plm = ParsimoniousLM(doc_tokens, w=.1)
 >>> plm.top(10, doc_tokens[-1])
-[('lover', -1.871802261651365),
- ('will', -1.871802261651365),
- ('eyes', -2.5649494422113044),
- ('gaze', -2.5649494422113044),
- ('an', -2.5649494422113044),
- ('eagle', -2.5649494422113044),
- ('blind', -2.5649494422113044),
- ('ear', -2.5649494422113044),
- ('hear', -2.5649494422113044),
- ('lowest', -2.5649494422113044)]
+[('lover', 0.1538461408077277),
+ ('will', 0.1538461408077277),
+ ('eyes', 0.0769230704038643),
+ ('gaze', 0.0769230704038643),
+ ('an', 0.0769230704038643),
+ ('eagle', 0.0769230704038643),
+ ('blind', 0.0769230704038643),
+ ('ear', 0.0769230704038643),
+ ('hear', 0.0769230704038643),
+ ('lowest', 0.0769230704038643)]
 
 The ``SignificantWordsLM`` is similarly initialized with a background corpus,
 but subsequently takes a group of document tokens as input. Its ``group_top``

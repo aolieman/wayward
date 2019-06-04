@@ -43,6 +43,17 @@ class ParsimoniousLM:
         Mapping of terms to numeric indices
     p_corpus : array of float
         Log probability of terms in background model (indexed by `vocab`)
+    p_document : array of float
+        Log probability of terms in the last processed document model
+        (indexed by `vocab`)
+
+    Methods
+    -------
+    top(k, document, ...)
+        Fit the document model and retrieve the top `k` terms.
+    get_term_probabilities(log_prob_distribution)
+        Aligns a term distribution with the vocabulary, and transforms
+        the term log probabilities to linear probabilities.
 
     References
     ----------
@@ -62,6 +73,7 @@ class ParsimoniousLM:
         logger.info('Building corpus model')
 
         self.w = w
+        self.p_document: Optional[np.ndarray] = None
         # Vocabulary: maps terms to numeric indices
         vocab: Dict[str, int]
         self.vocab = vocab = {}
@@ -117,14 +129,35 @@ class ParsimoniousLM:
         Returns
         -------
         t_p : list of (str, float)
-            Terms and their log-probabilities in the parsimonious model.
+            Terms and their probabilities in the parsimonious model.
         """
 
-        tf, p_term = self._document_model(d)
-        p_term = self._EM(tf, p_term, w, max_iter, eps)
+        tf, p_document = self._document_model(d)
+        self.p_document = self._EM(tf, p_document, w, max_iter, eps)
+        term_probabilities = self.get_term_probabilities(self.p_document)
+        return nlargest(k, term_probabilities.items(), itemgetter(1))
 
-        terms = [(t, p_term[i]) for t, i in self.vocab.items()]
-        return nlargest(k, terms, itemgetter(1))
+    def get_term_probabilities(
+            self,
+            log_prob_distribution: np.ndarray
+    ) -> Dict[str, float]:
+        """
+        Align a term distribution with the vocabulary, and transform
+        the term log probabilities to linear probabilities.
+
+        Parameters
+        ----------
+        log_prob_distribution : array of float
+            Log probability of terms which is indexed by the vocabulary.
+
+        Returns
+        -------
+        t_p_map : dict of term -> float
+            Dictionary of terms and their probabilities in the (sub-)model.
+        """
+        probabilities = np.exp(log_prob_distribution)
+        probabilities[np.isnan(probabilities)] = 0.
+        return {t: probabilities[i] for t, i in self.vocab.items()}
 
     def _document_model(self, d: Iterable[str]) -> Tuple[np.ndarray, np.ndarray]:
         """
