@@ -93,7 +93,7 @@ This package started out as `WeighWords <https://github.com/larsmans/weighwords/
 written by Lars Buitinck at the University of Amsterdam. It provides an efficient
 parsimonious LM implementation, and a very accessible API.
 
-A recent innovation in parsionious language modeling, Significant Words Language
+A recent innovation in parsimonious language modeling, Significant Words Language
 Models, led to the addition of a two-way parsimonious language model to this package.
 This new version targets python 3.x, and after a long slumber deserved a fresh name.
 The name "Wayward" was chosen because it is a near-homophone of WeighWords, and as
