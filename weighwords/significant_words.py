@@ -15,6 +15,11 @@ import numpy as np
 
 from weighwords import ParsimoniousLM
 from weighwords.logsum import logsum
+from weighwords.specific_term_estimators import (
+    SpecificTermEstimator,
+    RequiresMultipleDocuments,
+    mutual_exclusion,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -136,7 +141,8 @@ class SignificantWordsLM(ParsimoniousLM):
             lambdas: Optional[InitialLambdas] = None,
             fix_lambdas: bool = False,
             parsimonize_specific: bool = False,
-            post_parsimonize: bool = False
+            post_parsimonize: bool = False,
+            specific_estimator: SpecificTermEstimator = mutual_exclusion
     ) -> Dict[str, float]:
         """
         Estimate a document group model, and parsimonize it against fixed
@@ -166,6 +172,9 @@ class SignificantWordsLM(ParsimoniousLM):
             the EM algorithm. This may be used to compensate when the
             frequency of common terms varies much between the documents
             in the group.
+        specific_estimator : callable, optional
+            Function that estimates the specific terms model based on
+            the document term frequencies of the doc group.
 
         Returns
         -------
@@ -190,25 +199,22 @@ class SignificantWordsLM(ParsimoniousLM):
             doc_term_frequencies
         )
         try:
-            old_error_settings = np.seterr(divide='ignore')
-            doc_term_probs = [
-                np.log(tf) - np.log(np.sum(tf))
-                for tf in doc_term_frequencies
-            ]
-        finally:
-            np.seterr(**old_error_settings)
+            self.p_specific = specific_estimator(doc_term_frequencies)
+        except RequiresMultipleDocuments:
+            logger.warning(
+                'Cannot calculate `p_specific` for a single document, '
+                'using `p_corpus` as replacement.'
+            )
+            self.p_specific = self.p_corpus
 
-        p_specific = self._specific_model(doc_term_probs)
         if parsimonize_specific:
-            p_specific = self._EM(
+            self.p_specific = self._EM(
                 group_tf,
-                p_specific,
+                self.p_specific,
                 cast(np.floating, 1/3),
                 max_iter,
                 eps
             )
-
-        self.p_specific = p_specific
 
         weights_shape = len(document_models)
         if self.fix_lambdas:
@@ -223,7 +229,7 @@ class SignificantWordsLM(ParsimoniousLM):
             f'Group={lambdas[1]:.4f}, Specific={lambdas[2]:.4f}'
         )
         self.p_group = self._estimate(
-            p_group, p_specific, doc_term_frequencies, max_iter, eps
+            p_group, self.p_specific, doc_term_frequencies, max_iter, eps
         )
         if post_parsimonize:
             self.p_group = self._EM(group_tf, self.p_group, self.w, max_iter, eps)
@@ -355,47 +361,6 @@ class SignificantWordsLM(ParsimoniousLM):
             np.seterr(**old_error_settings)
 
         return group_tf, p_group
-
-    def _specific_model(
-            self,
-            document_term_probabilities: Sequence[np.ndarray]
-    ) -> np.ndarray:
-        """Create the fixed specific model."""
-        if len(document_term_probabilities) < 2:
-            logger.warning(
-                'Cannot calculate `p_specific` for a single document, '
-                'using `p_corpus` as replacement.'
-            )
-            return self.p_corpus
-
-        # complement events: 1 - p
-        complements = [
-            np.log1p(-np.exp(p_doc))
-            for p_doc in document_term_probabilities
-        ]
-        # probability of term to be important in one doc, and not others
-        complement_products = np.array([
-            dlm + complement
-            for i, dlm in enumerate(document_term_probabilities)
-            for j, complement in enumerate(complements)
-            if i != j
-        ])
-
-        try:
-            old_error_settings = np.seterr(divide='ignore')
-            # marginalize over all documents
-            p_specific = (
-                logsum(complement_products)
-                - np.log(
-                    np.count_nonzero(complement_products > np.NINF, axis=0)
-                )
-            )
-            # prevent NaNs from causing downstream errors
-            p_specific[np.isnan(p_specific)] = np.NINF
-        finally:
-            np.seterr(**old_error_settings)
-
-        return p_specific
 
     @staticmethod
     def normalize_lambdas(lambdas: InitialLambdas) -> InitialLambdas:
