@@ -52,9 +52,11 @@ class SignificantWordsLM(ParsimoniousLM):
     p_corpus : array of float
         Log probability of terms in background model (indexed by `vocab`)
     p_group : array of float
-        Log probability of terms in background model (indexed by `vocab`)
+        Log probability of terms in the last processed group model
+        (indexed by `vocab`)
     p_specific : array of float
-        Log probability of terms in background model (indexed by `vocab`)
+        Log probability of terms in the last processed specific model
+        (indexed by `vocab`)
     lambda_corpus : array of float
         Log probability (weight) of corpus model for documents
     lambda_group : array of float
@@ -242,28 +244,6 @@ class SignificantWordsLM(ParsimoniousLM):
                 f'Specific={np.mean(np.exp(self.lambda_specific)):.4f}'
             )
         return self.get_term_probabilities(self.p_group)
-
-    def get_term_probabilities(
-            self,
-            log_prob_distribution: np.ndarray
-    ) -> Dict[str, float]:
-        """
-        Align a term distribution with the vocabulary, and transform
-        the term log probabilities to linear probabilities.
-
-        Parameters
-        ----------
-        log_prob_distribution : array of float
-            Log probability of terms which is indexed by the vocabulary.
-
-        Returns
-        -------
-        t_p_map : dict of term -> float
-            Dictionary of terms and their probabilities in the (sub-)model.
-        """
-        probabilities = np.exp(log_prob_distribution)
-        probabilities[np.isnan(probabilities)] = 0.
-        return {t: probabilities[i] for t, i in self.vocab.items()}
 
     def _estimate(
             self,

@@ -1,9 +1,0 @@
-# install the wayward package for convenience
--e .
-
-# testing framework
-pytest ~= 4.5
-
-# static type checking
-mypy >= 0.701
-https://github.com/numpy/numpy-stubs/archive/master.tar.gz
