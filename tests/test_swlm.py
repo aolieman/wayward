@@ -1,6 +1,6 @@
 import logging
 
-from weighwords import SignificantWordsLM
+from wayward import SignificantWordsLM
 
 logging.basicConfig(level=logging.INFO)
 

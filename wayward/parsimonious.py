@@ -14,7 +14,7 @@ from typing import Iterable, Optional, Dict, List, Tuple
 
 import numpy as np
 
-from weighwords.logsum import logsum
+from wayward.logsum import logsum
 
 
 logger = logging.getLogger(__name__)

@@ -13,9 +13,9 @@ from typing import Iterable, Optional, Sequence, Tuple, List, Dict, cast
 
 import numpy as np
 
-from weighwords import ParsimoniousLM
-from weighwords.logsum import logsum
-from weighwords.specific_term_estimators import (
+from wayward import ParsimoniousLM
+from wayward.logsum import logsum
+from wayward.specific_term_estimators import (
     SpecificTermEstimator,
     RequiresMultipleDocuments,
     mutual_exclusion,

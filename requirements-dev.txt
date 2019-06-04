@@ -1,4 +1,4 @@
-# install the weighwords package for convenience
+# install the wayward package for convenience
 -e .
 
 # testing framework

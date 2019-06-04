@@ -1,6 +1,6 @@
 import numpy as np
 
-from weighwords import ParsimoniousLM
+from wayward import ParsimoniousLM
 
 
 def test_document_model(number_corpus, uniform_doc):

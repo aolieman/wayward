@@ -1,7 +1,7 @@
 from itertools import chain
 
-from weighwords import ParsimoniousLM, SignificantWordsLM
-from weighwords.logsum import logsum
+from wayward import ParsimoniousLM, SignificantWordsLM
+from wayward.logsum import logsum
 
 
 def test_model_equivalence(shakespeare_quotes):

@@ -10,7 +10,7 @@ from itertools import zip_longest
 
 import numpy as np
 
-from weighwords import ParsimoniousLM, SignificantWordsLM
+from wayward import ParsimoniousLM, SignificantWordsLM
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
