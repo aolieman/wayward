@@ -2,6 +2,7 @@
 name = "wayward"
 version = "0.3.0"
 repository = "https://github.com/aolieman/weighwords"
+readme = "README.rst"
 description = "Wayward is a Python package that helps to identify characteristic terms from single documents or groups of documents."
 authors = ["Alex Olieman <alex@olieman.net>"]
 license = "LGPL-3.0"
