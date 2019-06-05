@@ -1,5 +1,6 @@
 Wayward
 =======
+.. docs-inclusion-marker
 
 **Wayward** is a Python package that helps to identify characteristic terms from
 single documents or groups of documents. It can be used to create word clouds.

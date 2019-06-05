@@ -64,21 +64,9 @@ class SignificantWordsLM(ParsimoniousLM):
     lambda_specific : array of float
         Log probability (weight) of specific model for documents
 
-    Methods
-    -------
-    fit_parsimonious_group(document_group, ...)
-        Estimates a document group model, parsimonized against the corpus
-        and specific models. The documents may be unseen, but terms that
-        are not in the vocabulary will be ignored.
-    group_top(k, document_group, ...)
-        Shortcut to fit the group model and retrieve the top `k` terms.
-    get_term_probabilities(log_prob_distribution)
-        Aligns a term distribution with the vocabulary, and transforms
-        the term log probabilities to linear probabilities.
-
     See Also
     --------
-    parsimonious.ParsimoniousLM : one-sided parsimonious model
+    wayward.parsimonious.ParsimoniousLM : one-sided parsimonious model
 
     References
     ----------

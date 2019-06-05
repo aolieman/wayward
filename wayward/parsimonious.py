@@ -47,14 +47,6 @@ class ParsimoniousLM:
         Log probability of terms in the last processed document model
         (indexed by `vocab`)
 
-    Methods
-    -------
-    top(k, document, ...)
-        Fit the document model and retrieve the top `k` terms.
-    get_term_probabilities(log_prob_distribution)
-        Aligns a term distribution with the vocabulary, and transforms
-        the term log probabilities to linear probabilities.
-
     References
     ----------
     D. Hiemstra, S. Robertson, and H. Zaragoza (2004).
@@ -94,7 +86,7 @@ class ParsimoniousLM:
         try:
             old_error_settings = np.seterr(divide='ignore')
 
-            # lg P(t|C)
+            # log P(t|C)
             self.p_corpus: np.ndarray = np.log(cf) - np.log(np.sum(cf))
         finally:
             np.seterr(**old_error_settings)
