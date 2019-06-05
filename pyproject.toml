@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wayward"
-version = "0.3.0"
+version = "0.3.1"
 repository = "https://github.com/aolieman/weighwords"
 readme = "README.rst"
 description = "Wayward is a Python package that helps to identify characteristic terms from single documents or groups of documents."
