@@ -1,3 +1,6 @@
+Wayward
+=======
+
 **Wayward** is a Python package that helps to identify characteristic terms from
 single documents or groups of documents. It can be used to create word clouds.
 
@@ -92,11 +95,11 @@ This package started out as `WeighWords <https://github.com/larsmans/weighwords/
 written by Lars Buitinck at the University of Amsterdam. It provides an efficient
 parsimonious LM implementation, and a very accessible API.
 
-A recent innovation in parsimonious language modeling, Significant Words Language
+A recent innovation in language modeling, Significant Words Language
 Models, led to the addition of a two-way parsimonious language model to this package.
 This new version targets python 3.x, and after a long slumber deserved a fresh name.
 The name "Wayward" was chosen because it is a near-homophone of WeighWords, and as
-a wink to parsimonious language modeling: it uncovers which terms "depart" most from
+a nod to parsimonious language modeling: it uncovers which terms "depart" most from
 the background collection. The parsimonization algorithm discounts terms that are
 already well explained by the background model, until the most wayward terms come
 out on top.
