@@ -28,13 +28,12 @@ Either install the latest release from PyPI::
 
     pip install wayward
 
-or clone this git repository, and::
+or clone the git repository, and use `Poetry <https://poetry.eustace.io/docs/>`_
+to install the package in editable mode::
 
-    python setup.py install
-
-or::
-
-    pip install -e .
+    git clone https://github.com/aolieman/wayward.git
+    cd wayward/
+    poetry install
 
 Usage
 -----
