@@ -5,3 +5,8 @@
 build/
 dist/
 wayward.egg-info/
+.mypy_cache/
+.pytest_cache/
+
+.dmypy.json
+.python-version
