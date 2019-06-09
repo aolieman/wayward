@@ -35,6 +35,13 @@ class SignificantWordsLM(ParsimoniousLM):
     - Specific model: represents the same group, but is biased towards terms that
       occur with a high frequency in single docs, and a low frequency in others.
 
+    References
+    ----------
+    M. Dehghani, H. Azarbonyad, J. Kamps, D. Hiemstra, and M. Marx (2016).
+    `Luhn Revisited: Significant Words Language Models
+    <https://djoerdhiemstra.com/wp-content/uploads/cikm2016.pdf>`_.
+    Proc. CKIM'16.
+
     Parameters
     ----------
     documents : iterable over iterable of str terms
@@ -67,13 +74,6 @@ class SignificantWordsLM(ParsimoniousLM):
     See Also
     --------
     wayward.parsimonious.ParsimoniousLM : one-sided parsimonious model
-
-    References
-    ----------
-    M. Dehghani, H. Azarbonyad, J. Kamps, D. Hiemstra, and M. Marx (2016).
-    `Luhn Revisited: Significant Words Language Models
-    <https://djoerdhiemstra.com/wp-content/uploads/cikm2016.pdf>`_.
-    Proc. CKIM'16.
     """
 
     def __init__(

@@ -20,6 +20,13 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+
+.. toctree::
+   :caption: Examples
+   :maxdepth: 2
+
+   examples/dickens
+
 .. toctree::
    :caption: API documentation
    :maxdepth: 2

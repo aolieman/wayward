@@ -63,9 +63,9 @@ Usage
 ...     for quote in quotes
 ... ]
 
-The ``ParsimoniousLM`` is initialized with all document tokens as a
+The :py:class:`~.ParsimoniousLM` is initialized with all document tokens as a
 background corpus, and subsequently takes a single document's tokens
-as input. Its ``top`` method returns the top terms and their probabilities:
+as input. Its :py:meth:`~.top` method returns the top terms and their probabilities:
 
 >>> from wayward import ParsimoniousLM
 >>> plm = ParsimoniousLM(doc_tokens, w=.1)
@@ -81,8 +81,8 @@ as input. Its ``top`` method returns the top terms and their probabilities:
  ('hear', 0.0769230704038643),
  ('lowest', 0.0769230704038643)]
 
-The ``SignificantWordsLM`` is similarly initialized with a background corpus,
-but subsequently takes a group of document tokens as input. Its ``group_top``
+The :py:class:`~.SignificantWordsLM` is similarly initialized with a background corpus,
+but subsequently takes a group of document tokens as input. Its :py:meth:`~.group_top`
 method returns the top terms and their probabilities:
 
 >>> from wayward import SignificantWordsLM
@@ -99,7 +99,10 @@ method returns the top terms and their probabilities:
  ('strange', 0.03597866180849914),
  ('capers', 0.03597866180849914)]
 
-See ``example/dickens.py`` for a running example with more realistic data.
+See |example/dickens.py|_ for a running example with more realistic data.
+
+.. |example/dickens.py| replace:: ``example/dickens.py``
+.. _example/dickens.py: https://github.com/aolieman/wayward/blob/master/example/dickens.py
 
 Origin and Relaunch
 -------------------

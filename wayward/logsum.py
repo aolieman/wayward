@@ -1,7 +1,10 @@
-# Safe addition in log-space, taken from scikit-learn.
-#
-# Authors: G. Varoquaux, A. Gramfort, A. Passos, O. Grisel
-# License: BSD
+"""
+Safe addition in log-space, taken from scikit-learn.
+
+Authors: G. Varoquaux, A. Gramfort, A. Passos, O. Grisel
+
+License: BSD
+"""
 
 import numpy as np
 
@@ -9,7 +12,7 @@ import numpy as np
 def logsum(x: np.ndarray) -> np.ndarray:
     """Computes the sum of x assuming x is in the log domain.
 
-    Returns log(sum(exp(x))) while minimizing the possibility of
+    Returns ``log(sum(exp(x)))`` while minimizing the possibility of
     over/underflow.
 
     Examples

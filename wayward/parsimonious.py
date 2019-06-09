@@ -28,6 +28,13 @@ class ParsimoniousLM:
     method can then be used to fit document-specific models, also for unseen
     documents (with the same vocabulary as the background corpus).
 
+    References
+    ----------
+    D. Hiemstra, S. Robertson, and H. Zaragoza (2004).
+    `Parsimonious Language Models for Information Retrieval
+    <http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.4.5806>`_.
+    Proc. SIGIR'04.
+
     Parameters
     ----------
     documents : iterable over iterable of str terms
@@ -46,13 +53,6 @@ class ParsimoniousLM:
     p_document : array of float
         Log probability of terms in the last processed document model
         (indexed by `vocab`)
-
-    References
-    ----------
-    D. Hiemstra, S. Robertson, and H. Zaragoza (2004).
-    `Parsimonious Language Models for Information Retrieval
-    <http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.4.5806>`_.
-    Proc. SIGIR'04.
     """
 
     def __init__(

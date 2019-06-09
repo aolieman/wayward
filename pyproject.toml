@@ -2,6 +2,7 @@
 name = "wayward"
 version = "0.3.1"
 repository = "https://github.com/aolieman/wayward"
+documentation = "https://wayward.readthedocs.io"
 readme = "README.rst"
 description = "Wayward is a Python package that helps to identify characteristic terms from single documents or groups of documents."
 authors = ["Alex Olieman <alex@olieman.net>", "Lars Buitinck <>"]
