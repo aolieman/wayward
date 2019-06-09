@@ -19,12 +19,14 @@ The full text of the input books was obtained from `Project Gutenberg`_.
 Running
 -------
 
-Download (or clone) the `source files`_ from GitHub.
+First download (or clone) the `source files`_ from GitHub.
+
+Then the example can be run from the ``example/`` directory:
 
 .. code::
 
    $ cd wayward/example
-   $ python dickens.
+   $ python dickens.py
 
 .. _source files: https://github.com/aolieman/wayward/tree/master/example
 
