@@ -100,7 +100,7 @@ class SignificantWordsLM(ParsimoniousLM):
     ) -> List[Tuple[str, float]]:
         """
         Get the top `k` terms of a `document_group` and their probabilities.
-        This is a shortcut to retrieve the top terms found by `fit_parsimonious_group`.
+        This is a shortcut to retrieve the top terms found by :py:meth:`~.fit_parsimonious_group`.
 
         Parameters
         ----------
@@ -109,7 +109,7 @@ class SignificantWordsLM(ParsimoniousLM):
         document_group : iterable over iterable of str terms
             All documents that should be included in the group model.
         kwargs
-            Optional keyword arguments for `fit_parsimonious_group`.
+            Optional keyword arguments for :py:meth:`~.fit_parsimonious_group`.
 
         Returns
         -------

@@ -43,6 +43,8 @@ Output
 
     ... *omitted numpy warnings*
 
+    INFO:wayward.significant_words:Lambdas initialized to: Corpus=0.9, Group=0.01, Specific=0.09
+
     Top 20 words in Oliver Twist:
 
     PLM term         PLM p        SWLM term        SWLM p
@@ -72,7 +74,7 @@ Output
 
     ... *omitted wayward logging output*
 
-    INFO:wayward.significant_words:Lambdas initialized to: Corpus=0.9000, Group=0.0100, Specific=0.0900
+    INFO:wayward.significant_words:Lambdas initialized to: Corpus=0.9, Group=0.01, Specific=0.09
 
     Top 20 words in David Copperfield:
 
@@ -103,7 +105,7 @@ Output
 
     ... *omitted wayward logging output*
 
-    INFO:wayward.significant_words:Lambdas initialized to: Corpus=0.9000, Group=0.0100, Specific=0.0900
+    INFO:wayward.significant_words:Lambdas initialized to: Corpus=0.9, Group=0.01, Specific=0.09
 
     Top 20 words in Great Expectations:
 

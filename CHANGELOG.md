@@ -11,8 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Package documentation:
     - Transclude basic instructions from README.
     - Generate API documentation.
-    - Read the Docs configuration.
+    - Configuration for Read the Docs.
     - Incorporate changelog via symlink.
+    - Add a Dickens example page.
 - Docs build status and PyPI version badges in README.
 
 ## [0.3.1] - 2019-06-05

@@ -116,7 +116,7 @@ class ParsimoniousLM:
         eps : float, optional
             Epsilon: convergence threshold for EM algorithm.
         w : float, optional
-            Weight of document model; overrides value given to __init__
+            Weight of document model; overrides value given to :py:class:`~.ParsimoniousLM`
 
         Returns
         -------
@@ -206,9 +206,9 @@ class ParsimoniousLM:
         Parameters
         ----------
         tf : array of float
-            Term frequencies, as returned by document_model
+            Term frequencies, as returned by `document_model()`
         p_term : array of float
-            Term probabilities, as returned by document_model
+            Term probabilities, as returned by `document_model()`
         max_iter : int
             Number of iterations to run.
         eps : float

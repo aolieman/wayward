@@ -1,5 +1,6 @@
 Wayward
 =======
+
 .. image:: https://readthedocs.org/projects/wayward/badge/?version=latest
    :target: https://wayward.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation status
@@ -63,9 +64,9 @@ Usage
 ...     for quote in quotes
 ... ]
 
-The :py:class:`~.ParsimoniousLM` is initialized with all document tokens as a
+The ``ParsimoniousLM`` is initialized with all document tokens as a
 background corpus, and subsequently takes a single document's tokens
-as input. Its :py:meth:`~.top` method returns the top terms and their probabilities:
+as input. Its ``top()`` method returns the top terms and their probabilities:
 
 >>> from wayward import ParsimoniousLM
 >>> plm = ParsimoniousLM(doc_tokens, w=.1)
@@ -81,25 +82,25 @@ as input. Its :py:meth:`~.top` method returns the top terms and their probabilit
  ('hear', 0.0769230704038643),
  ('lowest', 0.0769230704038643)]
 
-The :py:class:`~.SignificantWordsLM` is similarly initialized with a background corpus,
-but subsequently takes a group of document tokens as input. Its :py:meth:`~.group_top`
+The ``SignificantWordsLM`` is similarly initialized with a background corpus,
+but subsequently takes a group of document tokens as input. Its ``group_top``
 method returns the top terms and their probabilities:
 
 >>> from wayward import SignificantWordsLM
 >>> swlm = SignificantWordsLM(doc_tokens, lambdas=(.7, .1, .2))
->>> swlm.group_top(10, doc_tokens[-3:])
-[('in', 0.37875318027881),
- ('is', 0.07195732361699828),
- ('mortal', 0.07195732361699828),
- ('nature', 0.07195732361699828),
- ('all', 0.07110584778711342),
- ('we', 0.03597866180849914),
- ('true', 0.03597866180849914),
- ('lovers', 0.03597866180849914),
- ('strange', 0.03597866180849914),
- ('capers', 0.03597866180849914)]
+>>> swlm.group_top(10, doc_tokens[-2:], fix_lambdas=True)
+[('much', 0.09077675276900632),
+ ('lover', 0.06298706244865138),
+ ('will', 0.06298706244865138),
+ ('you', 0.04538837638450315),
+ ('your', 0.04538837638450315),
+ ('rhymes', 0.04538837638450315),
+ ('speak', 0.04538837638450315),
+ ('neither', 0.04538837638450315),
+ ('rhyme', 0.04538837638450315),
+ ('nor', 0.04538837638450315)]
 
-See |example/dickens.py|_ for a running example with more realistic data.
+See |example/dickens.py|_ for a runnable example with more realistic data.
 
 .. |example/dickens.py| replace:: ``example/dickens.py``
 .. _example/dickens.py: https://github.com/aolieman/wayward/blob/master/example/dickens.py
