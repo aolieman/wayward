@@ -28,6 +28,13 @@ class ParsimoniousLM:
     method can then be used to fit document-specific models, also for unseen
     documents (with the same vocabulary as the background corpus).
 
+    References
+    ----------
+    D. Hiemstra, S. Robertson, and H. Zaragoza (2004).
+    `Parsimonious Language Models for Information Retrieval
+    <http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.4.5806>`_.
+    Proc. SIGIR'04.
+
     Parameters
     ----------
     documents : iterable over iterable of str terms
@@ -46,21 +53,6 @@ class ParsimoniousLM:
     p_document : array of float
         Log probability of terms in the last processed document model
         (indexed by `vocab`)
-
-    Methods
-    -------
-    top(k, document, ...)
-        Fit the document model and retrieve the top `k` terms.
-    get_term_probabilities(log_prob_distribution)
-        Aligns a term distribution with the vocabulary, and transforms
-        the term log probabilities to linear probabilities.
-
-    References
-    ----------
-    D. Hiemstra, S. Robertson, and H. Zaragoza (2004).
-    `Parsimonious Language Models for Information Retrieval
-    <http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.4.5806>`_.
-    Proc. SIGIR'04.
     """
 
     def __init__(
@@ -94,7 +86,7 @@ class ParsimoniousLM:
         try:
             old_error_settings = np.seterr(divide='ignore')
 
-            # lg P(t|C)
+            # log P(t|C)
             self.p_corpus: np.ndarray = np.log(cf) - np.log(np.sum(cf))
         finally:
             np.seterr(**old_error_settings)
@@ -124,7 +116,7 @@ class ParsimoniousLM:
         eps : float, optional
             Epsilon: convergence threshold for EM algorithm.
         w : float, optional
-            Weight of document model; overrides value given to __init__
+            Weight of document model; overrides value given to :py:class:`~.ParsimoniousLM`
 
         Returns
         -------
@@ -214,9 +206,9 @@ class ParsimoniousLM:
         Parameters
         ----------
         tf : array of float
-            Term frequencies, as returned by document_model
+            Term frequencies, as returned by `document_model()`
         p_term : array of float
-            Term probabilities, as returned by document_model
+            Term probabilities, as returned by `document_model()`
         max_iter : int
             Number of iterations to run.
         eps : float

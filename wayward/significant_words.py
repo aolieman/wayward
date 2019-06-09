@@ -35,6 +35,13 @@ class SignificantWordsLM(ParsimoniousLM):
     - Specific model: represents the same group, but is biased towards terms that
       occur with a high frequency in single docs, and a low frequency in others.
 
+    References
+    ----------
+    M. Dehghani, H. Azarbonyad, J. Kamps, D. Hiemstra, and M. Marx (2016).
+    `Luhn Revisited: Significant Words Language Models
+    <https://djoerdhiemstra.com/wp-content/uploads/cikm2016.pdf>`_.
+    Proc. CKIM'16.
+
     Parameters
     ----------
     documents : iterable over iterable of str terms
@@ -64,28 +71,9 @@ class SignificantWordsLM(ParsimoniousLM):
     lambda_specific : array of float
         Log probability (weight) of specific model for documents
 
-    Methods
-    -------
-    fit_parsimonious_group(document_group, ...)
-        Estimates a document group model, parsimonized against the corpus
-        and specific models. The documents may be unseen, but terms that
-        are not in the vocabulary will be ignored.
-    group_top(k, document_group, ...)
-        Shortcut to fit the group model and retrieve the top `k` terms.
-    get_term_probabilities(log_prob_distribution)
-        Aligns a term distribution with the vocabulary, and transforms
-        the term log probabilities to linear probabilities.
-
     See Also
     --------
-    parsimonious.ParsimoniousLM : one-sided parsimonious model
-
-    References
-    ----------
-    M. Dehghani, H. Azarbonyad, J. Kamps, D. Hiemstra, and M. Marx (2016).
-    `Luhn Revisited: Significant Words Language Models
-    <https://djoerdhiemstra.com/wp-content/uploads/cikm2016.pdf>`_.
-    Proc. CKIM'16.
+    wayward.parsimonious.ParsimoniousLM : one-sided parsimonious model
     """
 
     def __init__(
@@ -112,7 +100,7 @@ class SignificantWordsLM(ParsimoniousLM):
     ) -> List[Tuple[str, float]]:
         """
         Get the top `k` terms of a `document_group` and their probabilities.
-        This is a shortcut to retrieve the top terms found by `fit_parsimonious_group`.
+        This is a shortcut to retrieve the top terms found by :py:meth:`~.fit_parsimonious_group`.
 
         Parameters
         ----------
@@ -121,7 +109,7 @@ class SignificantWordsLM(ParsimoniousLM):
         document_group : iterable over iterable of str terms
             All documents that should be included in the group model.
         kwargs
-            Optional keyword arguments for `fit_parsimonious_group`.
+            Optional keyword arguments for :py:meth:`~.fit_parsimonious_group`.
 
         Returns
         -------

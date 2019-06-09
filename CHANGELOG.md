@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- 
+
+## [0.3.2] - 2019-06-09
+
+### Added
+
+- Package documentation:
+    - Transclude basic instructions from README.
+    - Generate API documentation.
+    - Configuration for Read the Docs.
+    - Incorporate changelog via symlink.
+    - Add a Dickens example page.
+- Docs build status and PyPI version badges in README.
+
 ## [0.3.1] - 2019-06-05
 
 ### Added

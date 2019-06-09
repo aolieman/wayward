@@ -1,15 +1,28 @@
 Wayward
 =======
 
+.. image:: https://readthedocs.org/projects/wayward/badge/?version=latest
+   :target: https://wayward.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation status
+
+.. image:: https://badge.fury.io/py/wayward.svg
+   :target: https://pypi.org/project/wayward/
+   :alt: PyPI package version
+
+
+.. docs-inclusion-marker
+
 **Wayward** is a Python package that helps to identify characteristic terms from
-single documents or groups of documents. It can be used to create word clouds.
+single documents or groups of documents. It can be used for keyword extraction
+and several related tasks, and can create efficient sparse representations for
+classifiers. It was originally created to provide term weights for word clouds.
 
-Rather than use simple term frequency, it weighs terms by statistical models
-known as *parsimonious language models*. These models are good at picking up
-the terms that distinguish a text document from other documents in a
-collection.
+Rather than use simple term frequency to estimate the importance of words and
+phrases, it weighs terms by statistical models known as *parsimonious language
+models*. These models are good at picking up the terms that distinguish a text
+document from other documents in a collection.
 
-For this to work, a preferably large amount of documents are needed
+For this to work, a preferably large amount of documents is needed
 to serve as a background collection, to compare the documents of interest to.
 This could be a random sample of newspaper articles, for instance, but for many
 applications it works better to take a natural collection, such as a periodical
@@ -29,14 +42,14 @@ Installation
 
 Either install the latest release from PyPI::
 
-    pip install wayward
+    $ pip install wayward
 
 or clone the git repository, and use `Poetry <https://poetry.eustace.io/docs/>`_
 to install the package in editable mode::
 
-    git clone https://github.com/aolieman/wayward.git
-    cd wayward/
-    poetry install
+    $ git clone https://github.com/aolieman/wayward.git
+    $ cd wayward/
+    $ poetry install
 
 Usage
 -----
@@ -53,7 +66,7 @@ Usage
 
 The ``ParsimoniousLM`` is initialized with all document tokens as a
 background corpus, and subsequently takes a single document's tokens
-as input. Its ``top`` method returns the top terms and their probabilities:
+as input. Its ``top()`` method returns the top terms and their probabilities:
 
 >>> from wayward import ParsimoniousLM
 >>> plm = ParsimoniousLM(doc_tokens, w=.1)
@@ -75,23 +88,26 @@ method returns the top terms and their probabilities:
 
 >>> from wayward import SignificantWordsLM
 >>> swlm = SignificantWordsLM(doc_tokens, lambdas=(.7, .1, .2))
->>> swlm.group_top(10, doc_tokens[-3:])
-[('in', 0.37875318027881),
- ('is', 0.07195732361699828),
- ('mortal', 0.07195732361699828),
- ('nature', 0.07195732361699828),
- ('all', 0.07110584778711342),
- ('we', 0.03597866180849914),
- ('true', 0.03597866180849914),
- ('lovers', 0.03597866180849914),
- ('strange', 0.03597866180849914),
- ('capers', 0.03597866180849914)]
+>>> swlm.group_top(10, doc_tokens[-2:], fix_lambdas=True)
+[('much', 0.09077675276900632),
+ ('lover', 0.06298706244865138),
+ ('will', 0.06298706244865138),
+ ('you', 0.04538837638450315),
+ ('your', 0.04538837638450315),
+ ('rhymes', 0.04538837638450315),
+ ('speak', 0.04538837638450315),
+ ('neither', 0.04538837638450315),
+ ('rhyme', 0.04538837638450315),
+ ('nor', 0.04538837638450315)]
 
-See ``example/dickens.py`` for a running example with more realistic data.
+See |example/dickens.py|_ for a runnable example with more realistic data.
 
-Background
-----------
-This package started out as `WeighWords <https://github.com/larsmans/weighwords/>`_,
+.. |example/dickens.py| replace:: ``example/dickens.py``
+.. _example/dickens.py: https://github.com/aolieman/wayward/blob/master/example/dickens.py
+
+Origin and Relaunch
+-------------------
+This package started out as WeighWords_,
 written by Lars Buitinck at the University of Amsterdam. It provides an efficient
 parsimonious LM implementation, and a very accessible API.
 
@@ -103,6 +119,11 @@ a nod to parsimonious language modeling: it uncovers which terms "depart" most f
 the background collection. The parsimonization algorithm discounts terms that are
 already well explained by the background model, until the most wayward terms come
 out on top.
+
+See the Changelog_ for an overview of the most important changes.
+
+..  _WeighWords: https://github.com/larsmans/weighwords/
+..  _Changelog: https://wayward.readthedocs.io/en/develop/changelog.html
 
 References
 ----------

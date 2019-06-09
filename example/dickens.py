@@ -38,7 +38,9 @@ def read_book(title, num):
             break
         elif in_book:
             for w in re.sub(r"[.,:;!?\"'‘’]", " ", ln).lower().split():
-                yield w
+                token = w.strip(' -')
+                if token:
+                    yield token
         elif ln.startswith(startbook):
             in_book = True
 
@@ -65,7 +67,7 @@ for title, terms in book_contents:
     print(f"\nTop {top_k} words in {title}:")
     print(f"\n{'PLM term':<16} {'PLM p':<12} {'SWLM term':<16} {'SWLM p':<6}")
     for (plm_t, plm_p), (swlm_t, swlm_p) in zip(plm_top, swlm_top):
-        print(f"{plm_t:<16} {np.exp(plm_p):<12.4f} {swlm_t:<16} {swlm_p:.4f}")
+        print(f"{plm_t:<16} {plm_p:<12.4f} {swlm_t:<16} {swlm_p:.4f}")
     print("")
 
 
