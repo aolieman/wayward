@@ -3,14 +3,16 @@ Wayward
 .. docs-inclusion-marker
 
 **Wayward** is a Python package that helps to identify characteristic terms from
-single documents or groups of documents. It can be used to create word clouds.
+single documents or groups of documents. It can be used for keyword extraction
+and several related tasks, and can create efficient sparse representations for
+classifiers. It was originally created to provide term weights for word clouds.
 
-Rather than use simple term frequency, it weighs terms by statistical models
-known as *parsimonious language models*. These models are good at picking up
-the terms that distinguish a text document from other documents in a
-collection.
+Rather than use simple term frequency to estimate the importance of words and
+phrases, it weighs terms by statistical models known as *parsimonious language
+models*. These models are good at picking up the terms that distinguish a text
+document from other documents in a collection.
 
-For this to work, a preferably large amount of documents are needed
+For this to work, a preferably large amount of documents is needed
 to serve as a background collection, to compare the documents of interest to.
 This could be a random sample of newspaper articles, for instance, but for many
 applications it works better to take a natural collection, such as a periodical
@@ -90,9 +92,9 @@ method returns the top terms and their probabilities:
 
 See ``example/dickens.py`` for a running example with more realistic data.
 
-Background
-----------
-This package started out as `WeighWords <https://github.com/larsmans/weighwords/>`_,
+Origin and Relaunch
+-------------------
+This package started out as WeighWords_,
 written by Lars Buitinck at the University of Amsterdam. It provides an efficient
 parsimonious LM implementation, and a very accessible API.
 
@@ -104,6 +106,11 @@ a nod to parsimonious language modeling: it uncovers which terms "depart" most f
 the background collection. The parsimonization algorithm discounts terms that are
 already well explained by the background model, until the most wayward terms come
 out on top.
+
+See the Changelog_ for an overview of the most important changes.
+
+..  _WeighWords: https://github.com/larsmans/weighwords/
+..  _Changelog: https://wayward.readthedocs.io/en/develop/changelog.html
 
 References
 ----------

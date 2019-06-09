@@ -2,22 +2,31 @@
 Welcome to Wayward's documentation!
 ===================================
 
-.. include:: ../README.rst
-  :start-after: docs-inclusion-marker
+.. include:: readme.rst
 
-Modules
--------
+
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
 
-   wayward.parsimonious
-   wayward.significant_words
-   wayward.specific_term_estimators
-   wayward.logsum
+   readme
+   changelog.md
 
 Indices and tables
-------------------
+~~~~~~~~~~~~~~~~~~
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. toctree::
+   :caption: API documentation
+   :maxdepth: 2
+
+   api_docs/wayward.parsimonious
+   api_docs/wayward.significant_words
+   api_docs/wayward.specific_term_estimators
+   api_docs/wayward.logsum
+
+

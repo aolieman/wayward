@@ -16,6 +16,7 @@
 
 
 # -- Project information -----------------------------------------------------
+import pkg_resources
 
 project = 'Wayward'
 copyright = (
@@ -24,7 +25,7 @@ copyright = (
 author = 'Alex Olieman'
 
 # The full version, including alpha/beta/rc tags
-release = '0.3.1'
+release = pkg_resources.get_distribution('wayward').version
 
 master_doc = 'index'
 
@@ -34,7 +35,9 @@ master_doc = 'index'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.napoleon'
+    'sphinx.ext.napoleon',
+    'sphinx.ext.viewcode',
+    'recommonmark',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -51,11 +54,8 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
-
-# html_sidebars = {
-#     '**': ['globaltoc.html', 'relations.html', 'searchbox.html']
-# }
+html_theme = 'sphinx_rtd_theme'
+html_show_sourcelink = True
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
