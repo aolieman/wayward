@@ -1,5 +1,14 @@
 Wayward
 =======
+.. image:: https://readthedocs.org/projects/wayward/badge/?version=latest
+   :target: https://wayward.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation status
+
+.. image:: https://badge.fury.io/py/wayward.svg
+   :target: https://pypi.org/project/wayward/
+   :alt: PyPI package version
+
+
 .. docs-inclusion-marker
 
 **Wayward** is a Python package that helps to identify characteristic terms from
