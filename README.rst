@@ -9,6 +9,7 @@ Wayward
    :target: https://pypi.org/project/wayward/
    :alt: PyPI package version
 
+------------------------
 
 .. docs-inclusion-marker
 
@@ -103,7 +104,7 @@ method returns the top terms and their probabilities:
 See |example/dickens.py|_ for a runnable example with more realistic data.
 
 .. |example/dickens.py| replace:: ``example/dickens.py``
-.. _example/dickens.py: https://github.com/aolieman/wayward/blob/master/example/dickens.py
+.. _example/dickens.py: https://wayward.readthedocs.io/en/latest/examples/dickens.html
 
 Origin and Relaunch
 -------------------
